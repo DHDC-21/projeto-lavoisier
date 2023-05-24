@@ -1,0 +1,39 @@
+{
+  "name": "eletiva-script",
+  "version": "1.0.0",
+  "description": "Projeto final para a eletiva de programacao script, na Fatec Mogi Mirim.",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DHDC-21/Eletiva-Script.git"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "html",
+    "css",
+    "ejs",
+    "bootstrap",
+    "express"
+  ],
+  "author": "Douglas Henrique Dionysio Costa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DHDC-21/Eletiva-Script/issues"
+  },
+  "homepage": "https://github.com/DHDC-21/Eletiva-Script#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.0-alpha3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "sequelize": "^6.31.1",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
