@@ -12,8 +12,7 @@ Faculdade de Tecnologia de Mogi Mirim - Fatec "Arthur de Azevedo"
 
 ## Introduction
 
-> Esse projeto tem como objetivo
+> O objetivo é entender e aplicar conceitos de desenvolvimento de scripts em sistemas para internet bem como os padrões, técnicas e ferramentas associados
 
----
 
 ## Architectures
