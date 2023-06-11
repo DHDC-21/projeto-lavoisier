@@ -1,7 +1,7 @@
 const {Sequelize} = require("sequelize");
 
-const connection = new Sequelize("teste", "root", "root", {
-    host: "localhost",
+const connection = new Sequelize("nodejs", "phpmyadmin", "rpi", {
+    host: "192.168.68.14",
     dialect: "mariadb"
 });
 
