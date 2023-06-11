@@ -1,19 +1,52 @@
-// models/User.js
+// './models/User.js'
 
 const { DataTypes } = require('sequelize');
-const connection = require('./connection');
+const database = require('./config/connection');
 
 
-const User = connection.define('Usuario', {
-  username: {
-    type: DataTypes.STRING,
+const User = database.define('Usuario', {
+  // atributos
+  id: {
+    type:  DataTypes.INTEGER,
     allowNull: false,
-    unique: true
+    autoIncrement: true,
+    primaryKey: true
   },
-  password: {
-    type: DataTypes.STRING,
+
+  nome: {
+    type: DataTypes.STRING(20),
+    allowNull: false
+  },
+  
+  sobrenome: {
+    type: DataTypes.STRING(20),
+    allowNull: false
+  },
+  
+  usuario: {
+    type: DataTypes.STRING(20),
+    allowNull: false
+  },
+  
+  senha: {
+    type: DataTypes.STRING(20),
+    allowNull: false
+  },
+  
+  endereco: {
+    type: DataTypes.STRING(20),
+    allowNull: false
+  }, 
+  
+  dt_nascimento: {
+    type: DataTypes.DATEONLY,
     allowNull: false
   }
+
+},{
+  // opções
 });
+
+User.sync();
 
 module.exports = User;

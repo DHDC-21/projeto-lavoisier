@@ -7,7 +7,7 @@ const router = express.Router();
 // dando GET nas  rotas
 router
     .get('/', (req, res) => {
-        res.render('index');
+        res.render('login2');
     })
   
     .post('/login', async (req, res) => {
