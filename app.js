@@ -1,9 +1,9 @@
 
 const express = require("express");
-const flash = require("connect-flash")
+//const flash = require("connect-flash")
 const morgan = require("morgan");
 const path = require("path");
-const session = require("express-session")
+//const session = require("express-session")
 
 const mainRoutes = require("./src/controllers/routes/auth.routes");
 const authRoutes = require("./src/controllers/routes/main.routes");
@@ -28,6 +28,7 @@ app.use(morgan("short"));
 
 app.use(express.urlencoded({ extended: false }));
 
+/*
 app.use(session({
 	secret: "eletiva-script",
 	resave: true,
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
 	res.locals.error_msg  = req.flash("error_msg");
 	next();
 })
+*/
 
 app.use("/", mainRoutes);
 app.use("/auth", authRoutes);
