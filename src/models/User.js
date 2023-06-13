@@ -47,6 +47,5 @@ const User = database.define('Usuario', {
   // opções
 });
 
-User.sync();
 
 module.exports = User;

@@ -36,6 +36,5 @@ const Client = database.define('Cliente',{
     // opções
 });
 
-Client.sync();
 
 module.exports = Client;

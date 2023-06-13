@@ -23,14 +23,9 @@ app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use(express.urlencoded({ extended: false }));
 
 
-// importando as ROUTES
-const authRoutes = require("./src/controllers/routes/auth.routes");
-const testRoutes = require("./src/controllers/routes/test.routes");
-
-
-// configurando as ROUTES
-app.use("/", authRoutes);
-app.use("/test", testRoutes);
+// importando as rotas
+const routes = require("./src/controllers/routes");
+app.use("/", routes);
 
 
 // ouvindo o servidor na porta 3000
