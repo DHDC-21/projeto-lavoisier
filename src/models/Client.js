@@ -1,4 +1,3 @@
-// './src/models/Client.js'
 
 const { DataTypes } = require('sequelize');
 const database = require('./config/connection');

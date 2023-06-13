@@ -1,0 +1,11 @@
+{
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "workbench.panel.defaultLocation": "bottom",
+    "terminal.integrated.tabs.hideCondition": "never",
+    "terminal.integrated.tabs.defaultIcon": "console",
+    "terminal.integrated.tabs.defaultColor": "terminal.ansiWhite",
+    "cSpell.words": [
+        "Conexão",
+        "resave"
+    ]
+}
