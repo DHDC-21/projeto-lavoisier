@@ -1,5 +1,5 @@
 
-const User = require("../../models/User");
+const User = require("../models/User");
 
 const loginPost = (req, res) => {
 	const { username, password } = req.body; // Supondo que você esteja enviando o nome de usuário e a senha no corpo da solicitação
