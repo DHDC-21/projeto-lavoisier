@@ -37,18 +37,19 @@
 
     .login-form input[type="text"],
     .login-form input[type="password"] {
-      width: 100%;
+      width: 95%;
       padding: 8px;
       border-radius: 4px;
       border: 1px solid #ccc;
+	  margin-bottom: 20px;
     }
 
     .login-form button {
       width: 100%;
-      padding: 10px;
+      padding: 8px;
       border-radius: 4px;
       border: none;
-      background-color: #fcb70d; /* Amarelo */
+      background-color: green; /* Amarelo */
       color: #fff;
       font-weight: bold;
       cursor: pointer;
@@ -57,12 +58,14 @@
 </head>
 <body>
   <div class="container">
-    <form class="login-form" action="/login" method="POST">
+    <form class="login-form" action="/auth/login" method="POST">
       <h2>Login</h2>
       <label for="username">Usuário:</label>
       <input type="text" id="username" name="username" required>
+	  <br>
       <label for="password">Senha:</label>
       <input type="password" id="password" name="password" required>
+	  <br>
       <button type="submit">Entrar</button>
     </form>
   </div>
