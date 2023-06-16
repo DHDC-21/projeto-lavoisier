@@ -57,8 +57,9 @@ router
 	}
 })
 
-.get("/delete",(req,res)=>{
-	res.render("clientes_delete",{title:"Deletar Clientes"});
+.get("/delete/:id", async (req,res)=>{
+	const clientId = req.params.id;
+	res.render("clientes_delete",{title:"Deletar Clientes",clientId});
 })
 
 

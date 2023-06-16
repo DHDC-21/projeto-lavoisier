@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DELETAR CLIENTES</title>
+    <title> <%- title %> </title>
 </head>
 <body>
-    <h1>Digite o código para deletar o produto</h1>
+	<script type="text/javascript">
+		alert("Você realmente deseja apagar o código abaixo?");
+	</script>
     
     <form action="deletar.php" method="post">
         Digite o codigo do cliente a ser removido:
-        <input type="text" name="codigo" size="10"><br>
+        <input type="text" name="id" id="id" value="<%= clientId %>"><br>
         <input type="submit" value="APAGAR">
     </form>
 </body>
