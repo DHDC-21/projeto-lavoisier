@@ -11,7 +11,7 @@ const path = require("path");
 const session = require("express-session");
 
 // import routes
-const mainRoutes = require("./src/routes/main.routes");
+const clientRoutes = require("./src/routes/client.routes");
 const authRoutes = require("./src/routes/auth.routes");
 
 // import models
@@ -39,7 +39,7 @@ app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use(express.json());
 app.use(morgan("short"));
 
-app.use(express.urlencoded({ extended: false }));
+ app.use(express.urlencoded({ extended: true })); // Middleware para analisar dados do formulário
 
 
 app.use(session({
@@ -53,8 +53,11 @@ app.use(flash()); //* o flash tem que vir obrigatoriamente a baixo do session
 /*********************
  * ! DEFININDO ROTAS *
  *********************/
-app.use("/", mainRoutes);
-app.use("/auth", authRoutes);
+app.get("/", (req,res) =>{
+	res.redirect('/auth');
+});
+app.use("/auth",authRoutes);
+app.use("/clients",clientRoutes);
 
 
 /**************************

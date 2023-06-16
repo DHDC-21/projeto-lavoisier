@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de cadastro de produtos</title>
+</head>
+<body>
+    <form action="" method="post">
+        <h1>FORMULÁRIO DE CLIENTES:</h1>
+        <p>
+            <table border="1">
+                <tr>
+                    <td>NOME: <input type="text" name="name" size="10"></td>
+                    <td>ENDERECO: <input type="text" name="address" size="30"></td>
+                    <td>TELEFONE: <input type="text" name="telephone" size="11"></td>
+					<td>CPF: <input type="text" name="cpf" size="11"></td>
+                    <td><input type="submit" value="INCLUIR"></td>
+                </tr>
+            </table>
+        </p>
+    </form>
+    <h1>Lista de Clientes</h1>
+  	<ul>
+    <% clients.forEach(client => { %>
+      <li><%= client.nome %></li>
+    <% }) %>
+	
+</body>
+</html>
