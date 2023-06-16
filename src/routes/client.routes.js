@@ -33,8 +33,28 @@ router
 	}
 })
 
-.get("/alter",(req,res)=>{
-	res.render("clientes_alter",{title:"Alterar Clientes"});
+.get("/update/:id", async (req,res)=>{
+	const clientId = req.params.id;
+	res.render("clientes_update",{title:"Alterar Clientes",clientId});
+})
+
+.post('/update/:id', async (req, res) => {
+	try {
+		const { id, nome, endereco, telefone, CPF } = req.body;
+		const clientId = req.params.id;
+	
+		// Atualização do cliente usando o método update()
+		const updatedClient = await Client.update(
+			{ id, nome, endereco, telefone, CPF },
+			{ where: { id: clientId } }
+		);
+  
+	  	console.log('Cliente atualizado:', updatedClient);
+	  	res.redirect('/clients');
+	} catch (error) {
+	  	console.error('Erro ao atualizar cliente:', error);
+	  	res.status(500).send('Erro ao atualizar cliente.');
+	}
 })
 
 .get("/delete",(req,res)=>{

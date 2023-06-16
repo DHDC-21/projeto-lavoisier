@@ -33,8 +33,8 @@
 			<td> <%= client.endereco %> </td>		
 			<td> <%= client.telefone %> </td>		
 			<td> <%= client.CPF %> </td>		
-			<td><a href='/clients/delete'>Deletar</a></td>
-			<td><a href='/clients/alter'>Alterar</a></td>
+			<td><a href='/clients/update/<%= client.id %>'>ALTERAR</a></td>
+			<td><a href='/clients/delete/<%= client.id %>'>DELETAR</a></td>
 		</tr>
 		
     <% }) %>
