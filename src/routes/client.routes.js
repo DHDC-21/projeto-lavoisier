@@ -3,13 +3,14 @@ const { Router } = require("express");
 const router = Router();
 
 const Client = require("../models/Client");
+Client.sync();
 
 router
+//clients/
 .get("/", async (req,res)=>{
 	try {
     	const clients = await Client.findAll(); // Buscar todos os clientes
-
-    	res.render("clientes",{title:"CRUD_Clientes", clients }); // Renderizar a view e passar os clientes como variável
+		res.render("clientes",{title:"CRUD_Clientes", clients }); // Renderizar a view e passar os clientes como variável
   	} catch (error) {
     	console.error('Erro ao buscar os clientes:', error);
     	res.status(500).send('Erro ao buscar os clientes.');

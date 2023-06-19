@@ -35,5 +35,4 @@ const Client = database.define('Cliente',{
     // opções
 });
 
-
 module.exports = Client;

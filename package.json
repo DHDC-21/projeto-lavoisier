@@ -4,9 +4,9 @@
   "description": "Projeto final para a eletiva de programacao script, na Fatec Mogi Mirim.",
   "main": "app.js",
   "scripts": {
-    "test": "nodemon app.js",
-    "dev": "nodemon app.js",
-    "start": "node app.js"
+    "test": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -37,8 +37,8 @@
     "express-session": "^1.17.3",
     "mariadb": "^3.1.2",
     "morgan": "^1.10.0",
-    "sequelize": "^6.31.1",
-    "sqlite3": "^5.1.6"
+    "mysql2": "^3.3.5",
+    "sequelize": "^6.31.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
