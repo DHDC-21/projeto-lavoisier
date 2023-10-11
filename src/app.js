@@ -10,6 +10,7 @@ const path = require("path");
 // import routes
 const clientRoutes = require("./routes/client.routes.js");
 const authRoutes = require("./routes/auth.routes.js");
+const testeRoutes = require('./routes/teste.routes.js');
 
 /**************************
  * ! INICIALIZAÇÃO DO APP *
@@ -37,8 +38,9 @@ app.use(morgan("short"));
  *********************/
 
 app.get("/", (req,res) =>{
-	res.redirect('/auth');
+	res.redirect('/teste');
 });
+app.get("/teste,testeRoutes");
 app.use("/auth",authRoutes);
 app.use("/clients",clientRoutes);
 
