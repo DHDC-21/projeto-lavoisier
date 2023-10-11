@@ -8,7 +8,7 @@
 */
 
 const { DataTypes, Sequelize } = require('sequelize');
-const database = require('../database/database');
+const database = require('./_connection.js');
 const Funcionario = require('./Funcionario.js');
 
 const Usuario = database.define('Usuario', {

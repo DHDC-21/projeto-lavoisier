@@ -12,7 +12,7 @@
 */
 
 const DataTypes = require('sequelize');
-const database = require('../database/database.js');
+const database = require('./_connection.js');
 
 const Cliente = database.define('Cliente', {
 	//atributos

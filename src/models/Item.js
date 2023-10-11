@@ -9,7 +9,7 @@
 */
 
 const { Sequelize, DataTypes } = require('sequelize');
-const database = require('../database/database.js');
+const database = require('./_connection');
 
 const Servico = require('./Servico.js');
 const NotaServico = require('./NotaServico.js');
@@ -18,10 +18,6 @@ const Item = database.define('Item',{
 	quantidade: {
 		type: DataTypes.INTEGER,
 		allowNull: false
-	},
-	sub_total: {
-		type: DataTypes.FLOAT,
-		allowNull: true
 	},
 	observacao: {
 		type: DataTypes.STRING,

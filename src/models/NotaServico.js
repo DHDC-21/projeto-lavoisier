@@ -10,7 +10,7 @@
 */
 
 const DataTypes = require('sequelize');
-const database = require('../database/database.js');
+const database = require('./_connection.js');
 
 const Usuario = require('./Usuario.js');
 const Cliente = require('./Cliente.js');
@@ -18,10 +18,6 @@ const Cliente = require('./Cliente.js');
 const NotaServico = database.define('NotaServico',{
 	total: {
 		type: DataTypes.FLOAT,
-		allowNull: true
-	},
-	dt_entrega: {
-		type: DataTypes.DATEONLY,
 		allowNull: true
 	},
 	prazo: {
