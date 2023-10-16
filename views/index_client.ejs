@@ -1,0 +1,86 @@
+
+<%- include('./include/header.ejs') %>
+
+<%- include('./include/navbar.ejs') %>
+
+<body>
+
+	<h1 style="font-size: 50px; font-weight: bold; text-align: center; margin: 50px;">
+		Controle de  <%- title %>
+	</h1>
+
+	<!-- Barra de pesquisa -->
+    <div class="container mt-3">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" onclick="procurarCadastro()">Procurar</a>
+                <button class="btn btn-success" type="button" onclick="adicionarCadastro()">Adicionar</a>
+            </div>
+        </div>
+    </div>
+
+   
+
+	<!-- Tabela com os dados -->
+	<br>
+	<div class="container mt-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+				<!-- Logica de programacao para exibir lista -->
+				*Por favor, fazer as logicas das listas*
+                <% for(let i = 0; i < clientes.length; i++){ %>
+                    <tr>
+                        <td><%= clientes[i].id %></td>
+                        <td><%= clientes[i].nome %></td>
+                        <td><%= clientes[i].telefone %></td>
+                        <td>
+                            <button class="btn btn-info btn-sm" onclick="verCadastro(<%= clientes[i].id %>)">Ver</button>
+                            <button class="btn btn-warning btn-sm" onclick="editarCadastro(<%= clientes[i].id %>)">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="excluirCadastro(<%= clientes[i].id %>)">Excluir</button>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+		function procurarCadastro(){
+			// coddigo
+			
+		}
+
+		function adicionarCadastro() {
+			window.location.href = "clients/create";
+		}
+
+        function verCadastro(codigo) {
+    		window.location.href = "/clients/read/" + codigo;
+		}
+
+		function editarCadastro(codigo) {
+    		window.location.href = "/clients/update/" + codigo;
+		}
+
+        function excluirCadastro(codigo) {
+		    // Lógica para excluir o cadastro com o código especificado
+		    console.log("Excluindo o cadastro com código " + codigo);
+		    // Redireciona para a rota de exclusão (se necessário)
+		    window.location.href = "/clients/delete/" + codigo;
+		}
+
+		
+    </script>
+
+</body>
+
+<%- include('./include/footer.ejs') %>
