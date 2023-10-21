@@ -12,9 +12,10 @@ const authRoutes = require("./controllers/auth.routes.js");
 const clientRoutes = require("./controllers/client.routes.js");
 const noteRoutes = require("./controllers/note.routes.js");
 const serviceRoutes = require("./controllers/service.routes.js");
+const employeeRoutes = require("./controllers/employee.routes.js");
 const userRoutes = require("./controllers/users.routes.js");
-const workesRoutes = require("./controllers/workes.routes.js");
-// const routes = require('./controllers/routes.js');
+
+
 
 
 /**************************
@@ -28,33 +29,40 @@ require("dotenv").config();	//* essa linha tem que vir apos o app
  * ! CONFIGURAÇÕES DO APP *
  **************************/
 
-app.use(express.static(path.join(__dirname,"public")));
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname,"/views"));
+app.engine('.html', require('ejs').__express);
+app.set('views', path.join(__dirname, 'views'));
 
+app.use('/static', express.static(path.join(__dirname,'public')));
+app.use('/static', express.static(path.join(__dirname,'public','javascript')));
+app.use('/static', express.static(path.join(__dirname,'public','stylesheets')));
+
+app.set('view engine', 'html');
 
 app.use(express.json());
 app.use(morgan("short"));
 
- app.use(express.urlencoded({ extended: true })); // Middleware para analisar dados do formulário
+app.use(express.urlencoded({ extended: true })); // Middleware para analisar dados do formulário
 
 
 /*********************
  * ! DEFININDO ROTAS *
  *********************/
-// app.use(routes);
-app.get("/", (req,res)=>{
+app
+.get("/", (req,res)=>{
 	res.render("index",{title:"Menu principal"});
+})	
+.get("/home", (req,res)=>{
+	res.redirect("/");
 })
 app.use(authRoutes);
-app.use("/clients", clientRoutes);
-app.use(noteRoutes);
-app.use(serviceRoutes);
-app.use(workesRoutes);
-app.use(userRoutes);
+app.use("/clientes", clientRoutes);
+app.use("/notas", noteRoutes);
+app.use("/servicos", serviceRoutes);
+app.use("/funcionarios", employeeRoutes);
+app.use("/usuarios", userRoutes);
 
 
 /***********************
  * ! EXPORTANDO O APP *
  ***********************/
-module.exports = app;
+module.exports = { app };

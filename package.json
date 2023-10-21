@@ -1,16 +1,12 @@
 {
-  "name": "eletiva-script",
+  "name": "projeto-lavoisier",
   "version": "1.0.0",
-  "description": "Projeto final para a eletiva de programacao script, na Fatec Mogi Mirim.",
+  "description": "Projeto referente ao trabalho de graduação do curso superior de Analise e Desenvolvimento de Sistemas",
   "main": "app.js",
   "scripts": {
     "test": "nodemon server.js",
     "dev": "nodemon server.js",
     "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DHDC-21/Eletiva-Script.git"
   },
   "keywords": [
     "nodejs",
@@ -23,10 +19,6 @@
   ],
   "author": "Douglas Henrique Dionysio Costa",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/DHDC-21/Eletiva-Script/issues"
-  },
-  "homepage": "https://github.com/DHDC-21/Eletiva-Script#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "dotenv": "^16.1.4",
@@ -40,5 +32,9 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gthub.com/dhdc-21/projeto-lavoisier"
   }
 }

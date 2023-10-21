@@ -7,8 +7,9 @@ const bcrypt = require('bcrypt');
 const Usuario = require('../models/Usuario.js');
 
 router
-.get("/notes", (req,res)=>{
-	res.send("Tela de notas")
+.get("/", (req,res)=>{
+	// res.send("Tela de funcionario");
+	res.render("user",{title:'CONTROLE DE FUNCIONARIOS'})
 })
 
 

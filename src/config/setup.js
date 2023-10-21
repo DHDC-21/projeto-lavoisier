@@ -38,4 +38,4 @@ const gerarUserRoot = (async () => {
 });
 
 
-module.exports = gerarUserRoot;
+// module.exports = gerarUserRoot;

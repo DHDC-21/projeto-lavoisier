@@ -1,0 +1,74 @@
+
+<%- include('./include/header.ejs') %>
+<%- include('./include/navbar.ejs') %>
+
+<style>
+    /* Estilize a caixa de confirmação e outras estilizações personalizadas aqui */
+</style>
+
+<body>
+    <h1 style="font-size: 50px; font-weight: bold; text-align: center; margin: 50px;">
+        <%- title %>
+    </h1>
+
+    <!-- Barra de pesquisa -->
+    <div class="container mt-3">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" onclick="procurarNotas()">Procurar</a>
+                <button class="btn btn-success" type="button" onclick="adicionarNota()">Adicionar</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela com os dados das notas de serviço -->
+    <br>
+    <div class="container mt-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th>Cadastrado Por</th>
+                    <th>Valor Total</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Lógica de programação para exibir lista de notas de serviço -->
+        
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function procurarNotas() {
+            // Lógica de pesquisa de notas de serviço
+        }
+
+        function adicionarNota() {
+            window.location.href = "services/create";
+        }
+
+        function verNota(codigo) {
+            window.location.href = "/services/read/" + codigo;
+        }
+
+        function editarNota(codigo) {
+            window.location.href = "/services/update/" + codigo;
+        }
+
+        function excluirNota(codigo, cliente) {
+            var confirmacao = confirm('Você está prestes a excluir a nota de serviço do cliente ' + cliente + ' (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.'
+            );
+
+            if (confirmacao) {
+                // Se o usuário confirmar, redirecione para a rota de exclusão com o código da nota de serviço
+                window.location.href = "services/delete/" + codigo;
+            }
+        }
+    </script>
+</body>
+
+<%- include('./include/footer.ejs') %>

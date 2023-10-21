@@ -12,13 +12,15 @@ const connection = new Sequelize(
 });
 
 // Adicione um evento 'sync' para chamar o arquivo de setup após a sincronização
-connection.sync({ force: false })
-  .then(() => {
-    console.log('Banco de dados recriado com sucesso.');
-  })
-  .catch(error => {
-    console.error('Erro ao sincronizar o banco de dados:', error);
-  })
+if(process.env.DB_FORCE == 'true'){
+	connection.sync({ force: process.env.DB_FORCE })
+	.then(() => {
+		console.log('Banco de dados recriado com sucesso.');
+	})
+	.catch(error => {
+		console.error('Erro ao sincronizar o banco de dados:', error);
+	})
+}
   
 
 async () => {

@@ -1,0 +1,72 @@
+<%- include('./include/header.ejs') %>
+<%- include('./include/navbar.ejs') %>
+
+<style>
+    /* Estilize a caixa de confirmação e outras estilizações personalizadas aqui */
+</style>
+
+<body>
+    <h1 style="font-size: 50px; font-weight: bold; text-align: center; margin: 50px;">
+        <%- title %>
+    </h1>
+
+    <!-- Barra de pesquisa -->
+    <div class="container mt-3">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" onclick="procurarFuncionarios()">Procurar</a>
+                <button class="btn btn-success" type="button" onclick="adicionarFuncionario()">Adicionar</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela com os dados dos funcionários -->
+    <br>
+    <div class="container mt-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Lógica de programação para exibir lista de funcionários -->
+                
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function procurarFuncionarios() {
+            // Lógica de pesquisa de funcionários
+        }
+
+        function adicionarFuncionario() {
+            window.location.href = "employees/create";
+        }
+
+        function verFuncionario(codigo) {
+            window.location.href = "/employees/read/" + codigo;
+        }
+
+        function editarFuncionario(codigo) {
+            window.location.href = "/employees/update/" + codigo;
+        }
+
+        function excluirFuncionario(codigo, nome) {
+            var confirmacao = confirm('Você está prestes a excluir o funcionário "' + nome + '" (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.'
+            );
+
+            if (confirmacao) {
+                // Se o usuário confirmar, redirecione para a rota de exclusão com o código do funcionário
+                window.location.href = "employees/delete/" + codigo;
+            }
+        }
+    </script>
+</body>
+
+<%- include('./include/footer.ejs') %>
