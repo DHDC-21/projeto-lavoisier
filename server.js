@@ -1,7 +1,9 @@
-const app = require('./src/app.js');
+const app = require('./src/app');
 require('dotenv').config();
 
+
 const PORT = process.env.SERVER_PORT || 3000;
-server.listen(PORT, () => {
-    console.log('http://127.0.0.1:' + port);
+
+app.listen(3000, () => {
+    console.log('http://127.0.0.1:' + PORT);
 });
