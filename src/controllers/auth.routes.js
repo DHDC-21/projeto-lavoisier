@@ -1,11 +1,10 @@
 
-const Router = require('express');
-const router = Router();
+const express = require('express');
+const router = express.Router();
 
 const bcrypt = require('bcrypt');
 
 const Usuario = require('../models/Usuario.js');
-
 
 router
 .get("/login", (req,res)=>{

@@ -1,5 +1,7 @@
-const Router = require('express');
-const router = Router();
+
+const express = require('express');
+const router = express.Router();
+
 
 const bcrypt = require('bcrypt');
 
@@ -14,7 +16,7 @@ router
 		// Buscar todos os clientes
     	const clientes = await Cliente.findAll();
 		// Renderiza a tela com o registro geral de clientes
-		res.render('client',{title:'CONTROLE DE CLIENTES', clientes});
+		res.render('clientes/index',{title:'CONTROLE DE CLIENTES', clientes});
 
   	} catch (error) {
     	console.error('Erro ao buscar os clientes:', error);
@@ -26,7 +28,7 @@ router
 // CREATE
 router
 .get("/create", (req,res)=>{
-	res.render('client_form',{title:'Clientes'})
+	res.render('clientes/form.ejs',{title:'Clientes'})
 })
 .post("/create", (req,res)=>{
 	try{

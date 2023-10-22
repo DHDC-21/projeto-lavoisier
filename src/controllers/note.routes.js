@@ -1,6 +1,7 @@
 
-const Router = require('express');
-const router = Router();
+const express = require('express');
+const router = express.Router();
+
 
 const bcrypt = require('bcrypt');
 
@@ -13,7 +14,7 @@ const Servico = require('../models/Servico.js');
 router
 .get("/", (req,res)=>{
 	const notas = NotaServico.findAll();
-	res.render("note",{title: 'CONTROLE DE NOTAS', notas});
+	res.render("notas/index",{title: 'CONTROLE DE NOTAS', notas});
 })
 
 

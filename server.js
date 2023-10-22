@@ -1,9 +1,9 @@
-const app = require('./src/app');
+
+const app = require('./src/app.js')
 require('dotenv').config();
 
+const PORT = process.env.SERVER_PORT || 4444;
 
-const PORT = process.env.SERVER_PORT || 3000;
-
-app.listen(3000, () => {
-    console.log('http://127.0.0.1:' + PORT);
-});
+app.listen(PORT, ()=>{
+	console.log('Servidor rodano no endereço \nhttp://127.0.0.1:' + PORT);
+})
