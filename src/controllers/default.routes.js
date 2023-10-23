@@ -2,6 +2,11 @@
 const express = require('express');
 const router = express.Router();
 
+// Importacoes necessaria para criar usuario
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const Usuario = require('../models/Usuario.js');
+
 
 router
  .get('/', (req,res)=>{
@@ -12,33 +17,44 @@ router
 })
 
  .get('/teste', (req,res)=>{
-	res.render('teste',{title:'Testando'});
+	res.render('teste',{title:'Testando', msg: ''});
  })
- .post('/teste', (req,res)=>{
-	/*
-	const username = req.body.username;
-    const password = req.body.password;
-    const isAdmin = req.body.isAdmin === "on"; // Verifica se a caixa de seleção foi marcada
-	*/
+ .post('/teste', async (req,res)=>{
+	
+	const { inputUsername, inputPassword, confirmPassword, inputIsAdmin } = req.body;
+		
+	// Confirmacao de senhas
+	if(inputPassword != confirmPassword){
+		return res.status(422).json({msg: 'As senhas nao conferem!'});
+	}
+	
+	var isAdmin;
 
-	const {
-		inputUsername,
-		inputPassword,
-		isAdmin
-	} = req.body;
+	if(inputIsAdmin == 'on'){
+		isAdmin = 1;
+	} else {
+		isAdmin = 0;
+	}
 
-    // Faça algo com os valores capturados, como salvá-los no banco de dados
-	console.log("Novo Usuario Criado!")
-    console.log("Nome de Usuário:", inputUsername);
-    console.log("Senha:", inputPassword);
-    console.log("É Administrador?", isAdmin);
+	// Ver se o usuario existe
+	const userExists = await Usuario.findOne({where:{username: inputUsername}});
+	if(userExists){
+		return res.status(422).json({msg: 'Usuario ja cadastrado!'});
+	}
 
-    res.send(
-		"Cadastro realizado com sucesso!" +
-		"\n Nome de Usuário:" + inputUsername +
-    	"\n Senha:"+ inputPassword +
-    	"\n É Administrador?"+ isAdmin
-		);
+	// Criptografando a senha
+	const  salt = await bcrypt.genSalt(12);
+	const passwordHash = await bcrypt.hash(inputPassword, salt);
+
+	// Criando o novo usuario
+	const newUser = Usuario.create({
+		username: inputUsername,
+		password: passwordHash,
+		isAdm: isAdmin
+	})
+
+	res.json({newUser});
+	console.log({newUser});
  })
 
 

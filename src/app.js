@@ -24,7 +24,6 @@ const userRoutes = require("./controllers/users.routes.js");
  * ! INICIALIZAÇÃO DO APP *
  **************************/
 const app = express();
-require("dotenv").config();	//* essa linha tem que vir apos o app
 
 
 /**************************
