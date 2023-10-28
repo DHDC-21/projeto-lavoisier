@@ -17,6 +17,9 @@
 </style>
 
 <body>
+
+	<%- include('../partials/navbar.ejs') %>
+	
     <h1 style="font-size: 50px; font-weight: bold; text-align: center; margin: 50px;">
         <%- title %>
     </h1>
@@ -26,56 +29,67 @@
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" onclick="procurarUsuarios()">Procurar</a>
-                <button class="btn btn-success" type="button" onclick="adicionarUsuario()">Adicionar</a>
+                <button class="btn btn-primary" type="button" onclick="btnSearch()">Procurar</a>
+                <button class="btn btn-success" type="button" onclick="btnCreate()">Adicionar</a>
             </div>
         </div>
     </div>
 
     <!-- Tabela com os dados dos usuários -->
-    <br>
-    <div class="container mt-3">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Usuário</th>
-                    <th>É Administrador?</th>
-                    <th>Funcionário ID</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Lógica de programação para exibir lista de usuários -->
-                
-            </tbody>
-        </table>
+	<br>
+	<div class="container mt-3">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Código</th>
+					<th>Usuário</th>
+					<th>É Administrador?</th>
+					<th>Funcionário ID</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Lógica de programação para exibir lista de usuários -->
+				<% for(let i = 0; i < usuarios.length; i++){ %>
+					<tr>
+						<td><%= usuarios[i].id %></td>
+						<td><%= usuarios[i].username %></td>
+						<td><%= usuarios[i].isAdmin %></td>
+						<td><%= usuarios[i].FuncionarioID %></td>
+						<td>
+							<button class="btn btn-warning btn-sm" type="button" onclick="btnUpdate( <%= usuarios[i].id %> )">Editar</button>
+							<button class="btn btn-danger btn-sm" type="button" onclick="btnDelete( <%= usuarios[i].id %> )">Excluir</button>
+						</td>
+					</tr>
+				<% } %>
+			</tbody>
+		</table>
     </div>
 
     <script>
-        function procurarUsuarios() {
+        function btnSearch() {
             // Lógica de pesquisa de usuários
         }
 
-        function adicionarUsuario() {
-            window.location.href = "users/create";
+        function btnCreate() {
+            window.location.href = "/usuarios/create";
         }
 
-        function verUsuario(codigo) {
-            window.location.href = "/users/read/" + codigo;
+        function btnRead(codigo) {
+            window.location.href = "/usuarios/read/" + codigo;
         }
 
-        function editarUsuario(codigo) {
-            window.location.href = "/users/update/" + codigo;
+        function btnUpdate(codigo) {
+            window.location.href = "/usuarios/update/" + codigo;
         }
 
-        function excluirUsuario(codigo, usuario) {
-            var confirmacao = confirm('Você está prestes a excluir o usuário "' + usuario + '" (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.'
+        function btnDelete(codigo) {
+            var confirmacao = confirm('Você está prestes a excluir o usuário "' + '" (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.'
             );
 
             if (confirmacao) {
                 // Se o usuário confirmar, redirecione para a rota de exclusão com o código do usuário
-                window.location.href = "users/delete/" + codigo;
+                window.location.href = "usuarios/delete/" + codigo;
             }
         }
     </script>

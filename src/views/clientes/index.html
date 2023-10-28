@@ -42,8 +42,8 @@
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" onclick="procurarCadastro()">Procurar</a>
-                <button class="btn btn-success" type="button" onclick="adicionarCadastro()">Adicionar</a>
+                <button class="btn btn-primary" type="button" onclick="btnSearch()">Procurar</a>
+                <button class="btn btn-success" type="button" onclick="btnCreate()">Adicionar</a>
             </div>
         </div>
     </div>
@@ -71,9 +71,9 @@
                         <td><%= clientes[i].nome %></td>
                         <td><%= clientes[i].telefone %></td>
                         <td>
-                            <button class="btn btn-info btn-sm" onclick="verCadastro(<%= clientes[i].id %>)">Ver</button>
-                            <button class="btn btn-warning btn-sm" onclick="editarCadastro(<%= clientes[i].id %>)">Editar</button>
-							<button class="btn btn-danger btn-sm" onclick="excluirCadastro(<%= clientes[i].id %>, '<%= clientes[i].nome %>')">Excluir</button>
+                            <button class="btn btn-info btn-sm" onclick="btnRead(<%= clientes[i].id %>)">Ver</button>
+                            <button class="btn btn-warning btn-sm" onclick="btnUpdate(<%= clientes[i].id %>)">Editar</button>
+							<button class="btn btn-danger btn-sm" onclick="btnDelete(<%= clientes[i].id %>, '<%= clientes[i].nome %>')">Excluir</button>
                         </td>
                     </tr>
                 <% } %>
@@ -83,24 +83,24 @@
 
 
     <script>
-		function procurarCadastro(){
+		function btnSearch(){
 			// coddigo
 			
 		}
 
-		function adicionarCadastro() {
+		function btnCreate() {
 			window.location.href = "clientes/create";
 		}
 
-        function verCadastro(codigo) {
+        function btnRead(codigo) {
     		window.location.href = "/clientes/read/" + codigo;
 		}
 
-		function editarCadastro(codigo) {
+		function btnUpdate(codigo) {
     		window.location.href = "/clientes/update/" + codigo;
 		}
 
-        function excluirCadastro(codigo, nome) {
+        function btnDelete(codigo, nome) {
         	var confirmacao = confirm('Você está prestes a excluir o cadastro do cliente ' + nome + ' (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.'
 			);
 

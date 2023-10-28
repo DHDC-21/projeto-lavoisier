@@ -17,6 +17,9 @@
 </style>
 
 <body>
+
+	<%- include('../partials/navbar.ejs') %>
+	
     <h1 style="font-size: 50px; font-weight: bold; text-align: center; margin: 50px;">
         <%- title %>
     </h1>
@@ -26,8 +29,8 @@
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" onclick="procurarFuncionarios()">Procurar</a>
-                <button class="btn btn-success" type="button" onclick="adicionarFuncionario()">Adicionar</a>
+                <button class="btn btn-primary" type="button" onclick="btnSearch()">Procurar</a>
+                <button class="btn btn-success" type="button" onclick="btnCreate()">Adicionar</a>
             </div>
         </div>
     </div>
@@ -52,29 +55,33 @@
     </div>
 
     <script>
-        function procurarFuncionarios() {
+        function btnSearch() {
             // Lógica de pesquisa de funcionários
         }
 
-        function adicionarFuncionario() {
-            window.location.href = "employees/create";
+
+        function btnCreate() {
+            window.location.href = "/funcionarios/create";
         }
 
-        function verFuncionario(codigo) {
-            window.location.href = "/employees/read/" + codigo;
+
+        function btnRead(codigo) {
+            window.location.href = "/funcionarios/read/" + codigo;
         }
 
-        function editarFuncionario(codigo) {
-            window.location.href = "/employees/update/" + codigo;
+
+        function btnUpdate(codigo) {
+            window.location.href = "/funcionarios/update/" + codigo;
         }
 
-        function excluirFuncionario(codigo, nome) {
+
+        function btnDelete(codigo, nome) {
             var confirmacao = confirm('Você está prestes a excluir o funcionário "' + nome + '" (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.'
             );
 
             if (confirmacao) {
                 // Se o usuário confirmar, redirecione para a rota de exclusão com o código do funcionário
-                window.location.href = "employees/delete/" + codigo;
+                window.location.href = "/funcionarios/delete/" + codigo;
             }
         }
     </script>

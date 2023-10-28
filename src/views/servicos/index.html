@@ -17,6 +17,9 @@
 </style>
 
 <body>
+
+	<%- include('../partials/navbar.ejs') %>
+	
     <h1 style="font-size: 50px; font-weight: bold; text-align: center; margin: 50px;">
         <%- title %>
     </h1>
@@ -26,8 +29,8 @@
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" onclick="procurarServicos()">Procurar</a>
-                <button class="btn btn-success" type="button" onclick="adicionarServico()">Adicionar</a>
+                <button class="btn btn-primary" type="button" onclick="btnSearch()">Procurar</a>
+                <button class="btn btn-success" type="button" onclick="btnCreate()">Adicionar</a>
             </div>
         </div>
     </div>
@@ -46,34 +49,46 @@
             </thead>
             <tbody>
                 <!-- Lógica de programação para exibir lista de serviços -->
+				<% for(let i = 0; i < servicos.length; i++){ %>
+                    <tr>
+                        <td><%= servicos[i].id %></td>
+                        <td><%= servicos[i].descricao%></td>
+                        <td>R$ <%= servicos[i].valor_unitario %></td>
+                        <td>
+                            
+                            <button class="btn btn-warning btn-sm" onclick="btnUpdate(<%= servicos[i].id %>)">Editar</button>
+							<button class="btn btn-danger btn-sm" onclick="btnDelete(<%= servicos[i].id %>)">Excluir</button>
+                        </td>
+                    </tr>
+                <% } %>
             </tbody>
         </table>
     </div>
 
     <script>
-        function procurarServicos() {
+        function btnSearch() {
             // Lógica de pesquisa de serviços
         }
 
-        function adicionarServico() {
-            window.location.href = "services_control/create";
+        function btnCreate {
+            window.location.href = "/servicos/create";
         }
 
-        function verServico(codigo) {
-            window.location.href = "/services_control/read/" + codigo;
+        function btnRead(codigo) {
+            window.location.href = "/servicos/read/" + codigo;
         }
 
-        function editarServico(codigo) {
-            window.location.href = "/services_control/update/" + codigo;
+        function btnUpdate(codigo) {
+            window.location.href = "/servicos/update/" + codigo;
         }
 
-        function excluirServico(codigo, descricao) {
-            var confirmacao = confirm('Você está prestes a excluir o serviço "' + descricao + '" (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.'
+        function btnDelete(codigo) {
+            var confirmacao = confirm('Você está prestes a excluir o serviço de (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.'
             );
 
             if (confirmacao) {
                 // Se o usuário confirmar, redirecione para a rota de exclusão com o código do serviço
-                window.location.href = "services_control/delete/" + codigo;
+                window.location.href = "/servicos/delete/" + codigo;
             }
         }
     </script>

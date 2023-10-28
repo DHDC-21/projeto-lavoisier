@@ -1,54 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<title><%- title %></title>
-
-	<link rel="stylesheet" href="/bootstrap.min.css">
-	<script src="/bootstrap.bundle.min.js"></script>
-
-	<style>
-		/* Estilo para o fundo do formulário */
-		.form-container {
-			background-color: #e6f7ff; /* Azul claro */
-			padding: 20px;
-			border-radius: 10px;
-		}
-	</style>
+    <title>Tela Popup com JavaScript</title>
+    <style>
+        /* Estilize sua popup como desejar */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+    </style>
 </head>
-
 <body>
-	<div class="container mt-5">
-		<div class="row justify-content-center">
-			<div class="col-md-6">
-				<div class="form-container">
-					<h1 class="text-center">Cadastro de Usuário</h1>
-					<form action="/teste" method="post">
-						<div class="mb-3">
-							<label for="inputUsername" class="form-label">Nome de Usuário</label>
-							<input type="text" class="form-control" id="inputUsername" name="inputUsername" required>
-						</div>
-						<div class="mb-3">
-							<label for="inputPassword" class="form-label">Senha</label>
-							<input type="password" class="form-control" id="inputPassword" name="inputPassword" required>
-						</div>
-						<div class="mb-3">
-							<label for="confirmPassword" class="form-label">Confirme a Senha</label>
-							<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-						</div>
-						<div class="mb-3 form-check">
-							<input type="checkbox" class="form-check-input" id="inputIsAdmin" name="inputIsAdmin">
-							<label class="form-check-label" for="inputIsAdmin">É Administrador?</label>
-						</div>
-						<button type="submit" class="btn btn-primary">Cadastrar</button>
-					</form>
-					<p> <%- msg %> </p>
-				</div>
-			</div>
-		</div>
-	</div>
+    <button id="mostrarPopup">Mostrar Popup</button>
+    <div id="popup" class="popup">
+        <p>Esta é a minha tela popup!</p>
+        <button id="fecharPopup">Fechar</button>
+    </div>
+
+    <script>
+        // Função para mostrar a popup
+        document.getElementById("mostrarPopup").addEventListener("click", function() {
+            document.getElementById("popup").style.display = "block";
+        });
+
+        // Função para fechar a popup
+        document.getElementById("fecharPopup").addEventListener("click", function() {
+            document.getElementById("popup").style.display = "none";
+        });
+    </script>
 </body>
 </html>

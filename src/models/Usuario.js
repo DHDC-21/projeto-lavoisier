@@ -10,6 +10,7 @@
 const { DataTypes, Sequelize } = require('sequelize');
 const database = require('../config/_connectionDB.js');
 const Funcionario = require('./Funcionario.js');
+require('dotenv').config();
 
 const Usuario = database.define('Usuario', {
 	//atributos
@@ -21,7 +22,7 @@ const Usuario = database.define('Usuario', {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	isADM: {
+	isAdmin: {
 		type: DataTypes.BOOLEAN,
 		defaultValue: false,
 	}

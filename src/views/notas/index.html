@@ -17,7 +17,10 @@
 </style>
 
 <body>
-    <h1 style="font-size: 50px; font-weight: bold; text-align: center; margin: 50px;">
+
+	<%- include('../partials/navbar.ejs') %>
+    
+	<h1 style="font-size: 50px; font-weight: bold; text-align: center; margin: 50px;">
         <%- title %>
     </h1>
 
@@ -26,8 +29,8 @@
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" onclick="procurarNotas()">Procurar</a>
-                <button class="btn btn-success" type="button" onclick="adicionarNota()">Adicionar</a>
+                <button class="btn btn-primary" type="button" onclick="btnSearch()">Procurar</a>
+                <button class="btn btn-success" type="button" onclick="btnCreate()">Adicionar</a>
             </div>
         </div>
     </div>
@@ -53,29 +56,29 @@
     </div>
 
     <script>
-        function procurarNotas() {
+        function btnSearch() {
             // Lógica de pesquisa de notas de serviço
         }
 
-        function adicionarNota() {
-            window.location.href = "services/create";
+        function btnCreate() {
+            window.location.href = "/notas/create";
         }
 
-        function verNota(codigo) {
-            window.location.href = "/services/read/" + codigo;
+        function btnRead(codigo) {
+            window.location.href = "/notas/read/" + codigo;
         }
 
-        function editarNota(codigo) {
-            window.location.href = "/services/update/" + codigo;
+        function btnUpdate(codigo) {
+            window.location.href = "/notas/update/" + codigo;
         }
 
-        function excluirNota(codigo, cliente) {
+        function btnDelete(codigo, cliente) {
             var confirmacao = confirm('Você está prestes a excluir a nota de serviço do cliente ' + cliente + ' (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.'
             );
 
             if (confirmacao) {
                 // Se o usuário confirmar, redirecione para a rota de exclusão com o código da nota de serviço
-                window.location.href = "services/delete/" + codigo;
+                window.location.href = "/notas/delete/" + codigo;
             }
         }
     </script>

@@ -3,9 +3,6 @@ const express = require('express');
 const router = express.Router();
 
 
-const bcrypt = require('bcrypt');
-
-const Usuario = require('../models/Usuario.js');
 const Cliente = require('../models/Cliente.js');
 const { where } = require('sequelize');
 
@@ -19,8 +16,7 @@ router
 		res.render('clientes/index',{title:'CONTROLE DE CLIENTES', clientes});
 
   	} catch (error) {
-    	console.error('Erro ao buscar os clientes:', error);
-    	res.status(500).send('Erro ao buscar os clientes.');
+    	res.status(500).render('erro',{msg:'erro na tela clientes'})
 	}
 });
 
@@ -28,7 +24,7 @@ router
 // CREATE
 router
 .get("/create", (req,res)=>{
-	res.render('clientes/form.ejs',{title:'Clientes'})
+	res.render('clientes/form',{title:'Clientes'})
 })
 .post("/create", (req,res)=>{
 	try{
@@ -42,7 +38,7 @@ router
 				inputCidade
 			} = req.body;
 
-		const newClient = Cliente.create({
+		const novoCliente = Cliente.create({
 			nome: inputNome,
 			cpf:  inputCPF,
 			dt_nascimento: inputDtNascimento,
@@ -53,8 +49,8 @@ router
 			cidade: inputCidade
 		});
 
-		console.log('Cliente criado:', newClient);
-    	res.redirect('/clients');
+		console.log('Cliente criado:', novoCliente);
+    	res.redirect('/clientes');
 	}  catch (error){
 		console.error('Erro ao criar cliente:', error);
     	res.status(500).send('Erro ao criar cliente.');
@@ -65,20 +61,15 @@ router
 // READ
 router.get("/read/:id", async (req, res) => {
     const codigo = req.params.id;
-    const client = await Cliente.findOne(
+    const cliente = await Cliente.findOne(
         { where: { id: codigo } }
     );
-
-	res.send(
-		"<p> Sistema em desenvolvimento... </p>" +
-		"<p> Visualizando o cadastro de " + client.nome + " codigo: (" + client.id + ")</p>"
-	);
-
-    // if (client) {
-    //     res.render('client-view', { title: 'Visualização de Cliente', client }); // Passar o objeto client para a página EJS
-    // } else {
-    //     res.send('Cliente com o ID ' + codigo + ' não encontrado.');
-    // }
+	
+	if(cliente){
+		res.render('clientes/profile',{title:'Ficha do Cliente', cliente});
+	} else{
+		res.render('erro',{msg:'Cliente nao encontrado!'})
+	}
 });
 
 
@@ -89,24 +80,51 @@ router.get("/read/:id", async (req, res) => {
 router
 .get("/update/:id", async (req,res) => {
 	const codigo = req.params.id;
-	const cliente = await Cliente.findAll({
-		where:{id: codigo}
-	})
+    const cliente = await Cliente.findOne(
+        { where: { id: codigo } }
+    );
 	
-	req.send(
-		"<p> Sistema em desenvolvimento... </p>" +
-		"<p> Atuizando o cadastro de " + client.nome + " codigo: (" + client.id + ")</p>"
-		);
-	// DESENVOLVER CODIGO DE ATUALIZACAO DE CADASTRO
+	if(cliente){
+		res.render('clientes/formUpdate',{title:'Formulario de Atualização', cliente});
+	} else{
+		res.render('erro',{msg:'Cliente nao encontrado!'})
+	}
 
 })
 .post('/update/:id', async (req, res) => {
+	const codigo = req.params.id;
+	const {
+		inputNome,
+		inputCPF,
+		inputDtNascimento,
+		inputLogradouro,
+		inputNCasa,
+		inputBairro,
+		inputCEP,
+		inputCidade,
+		inputTelefone
+	} = req.body;
 
-	req.send(
-		"<p> Sistema em desenvolvimento... </p>" +
-		"<p> Atuizando o cadastro de " + client.nome + " codigo: (" + client.id + ")</p>"
-		);
-	// DESENVOLVER CODIGO DE ATUALIZACAO DE CADASTRO
+	try {
+		await Cliente.update({
+			nome: inputNome,
+			cpf: inputCPF,
+			dt_nascimento: inputDtNascimento,
+			logradouro: inputLogradouro,
+			n_casa: inputNCasa,
+			bairro: inputBairro,
+			cep: inputCEP,
+			cidade: inputCidade,
+			telefone: inputTelefone
+		},{
+			where:{
+				id: codigo
+			}
+		})
+		res.redirect('/clientes');
+	} catch (error) {
+		// codigo
+	}
 
 })
 

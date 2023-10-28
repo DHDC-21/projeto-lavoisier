@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Erro</title>
+
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <script src="/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* Estilos CSS personalizados para a página de erro */
+        body {
+            background-color: #333; /* Fundo cinza escuro */
+            color: #fff; /* Texto branco */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+		/* CONTEINER */
+        .error-container {
+            background-color: #555; /* Fundo cinza médio */
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+			/* CABEÇALHO */
+			.error-header {
+				display: flex;
+				align-items: center;
+				font-size: 100px;
+			}
+				.error-icon {
+					color: red; /* Ícone de erro em vermelho */
+				}
+				.error-title {
+					color: #fff;
+					margin-left: 10px; /* Espaçamento à esquerda para separar o ícone do título */
+				}
+			/* CORPO */
+			.error-body {
+				background-color: darkgray;
+				padding: 15px;
+				color: red;
+			}
+			/* RODAPÉ */
+			.error-footer {
+				margin-top: 5%;
+				display: flex;
+				align-items: center;
+				align-self: center;
+			}
+    </style>
+</head>
+
+<body>
+    <div class="error-container">
+        <div class="error-header">
+            <div class="error-icon"> &#9888;</div>
+            <div class="error-title">ERRO:</div>
+        </div>
+
+        <div class="error-body">
+            <p><%- msg %></p>
+        </div>
+		
+        <div class="error-footer">
+            <a href="/home" class="btn btn-primary">VOLTAR PARA HOME</a>
+        </div>
+    </div>
+</body>
+</html>
