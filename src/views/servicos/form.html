@@ -14,17 +14,20 @@
 
 <body>
 	<div class="container mt-5">
-        <h1>Formulário com EJS e Bootstrap</h1>
+        <h1><%- title %></h1>
         <form action="" method="post">
             <div class="form-group">
                 <label for="inputDescricao">Descrição:</label>
-                <input type="text" class="form-control" id="inputDescricao" name="inputDescricao" required>
+                <input type="text" class="form-control" id="inputDescricao" name="inputDescricao" value="<%= servico.descricao %>" required>
             </div>
             <div class="form-group">
 				<label for="inputValorUnitario">Valor Unitário (Inteiro ou Decimal):</label>
-				<input type="number" class="form-control" id="inputValorUnitario" name="inputValorUnitario" required step="any">
-			</div>			
-            <button type="submit" class="btn btn-primary">Salvar</button>
+				<input type="number" class="form-control" id="inputValorUnitario" name="inputValorUnitario" value="<%= servico.valor_unitario %>" required step="any">
+			</div>
+			<div class="form-group" style="">
+				<a href="/servicos" class="btn btn-primary">VOLTAR</a>			
+				<button type="submit" class="btn btn-primary">SALVAR</button>
+			</div>
         </form>
     </div>
 </body>

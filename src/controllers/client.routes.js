@@ -24,7 +24,8 @@ router
 // CREATE
 router
 .get("/create", (req,res)=>{
-	res.render('clientes/form',{title:'Clientes'})
+	const cliente = {};
+	res.render('clientes/form',{title:'Cadastro de Clientes', cliente})
 })
 .post("/create", (req,res)=>{
 	try{
@@ -61,9 +62,9 @@ router
 // READ
 router.get("/read/:id", async (req, res) => {
     const codigo = req.params.id;
-    const cliente = await Cliente.findOne(
-        { where: { id: codigo } }
-    );
+	const cliente = await Cliente.findOne(
+		{ where: { id: codigo } }
+	);
 	
 	if(cliente){
 		res.render('clientes/profile',{title:'Ficha do Cliente', cliente});
@@ -85,7 +86,7 @@ router
     );
 	
 	if(cliente){
-		res.render('clientes/formUpdate',{title:'Formulario de Atualização', cliente});
+		res.render('clientes/form',{title:'Formulario de Atualização', cliente});
 	} else{
 		res.render('erro',{msg:'Cliente nao encontrado!'})
 	}

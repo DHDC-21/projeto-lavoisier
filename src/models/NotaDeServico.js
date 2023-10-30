@@ -12,12 +12,12 @@
 const DataTypes = require('sequelize');
 const database = require('../config/_connectionDB.js');
 
-const Usuario = require('./Usuario.js');
 const Cliente = require('./Cliente.js');
+const Servico = require('./Servico.js');
 
-const NotaServico = database.define('NotaServico',{
-	total: {
-		type: DataTypes.FLOAT,
+const NotaDeServico = database.define('NotaDeServico',{
+	quantidade: {
+		type: DataTypes.INTEGER,
 		allowNull: true
 	},
 	prazo: {
@@ -26,7 +26,8 @@ const NotaServico = database.define('NotaServico',{
 	}
 });
 
-NotaServico.belongsTo(Usuario);
-NotaServico.belongsTo(Cliente);
+NotaDeServico.belongsTo(Cliente);
+NotaDeServico.belongsTo(Servico);
 
-module.exports = NotaServico;
+
+module.exports = NotaDeServico;

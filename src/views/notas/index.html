@@ -43,14 +43,37 @@
                 <tr>
                     <th>Código</th>
                     <th>Cliente</th>
-                    <th>Cadastrado Por</th>
+                    <th>Serviço</th>
+					<th>Valor Unitário</th>
+					<th>Quantidade</th>
                     <th>Valor Total</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Lógica de programação para exibir lista de notas de serviço -->
-        
+				<% for(let i = 0; i < notas.length; i++){ %>
+                    <tr>
+                        <td><%= notas[i].id %></td>
+                        <td><%= notas[i].Cliente.nome %></td>
+                        <td><%= notas[i].Servico.descricao %></td>
+						<td>R$ <%= notas[i].Servico.valor_unitario%></td>
+						<td>x <%= notas[i].quantidade %></td>
+						<td>
+							<% if (notas[i].Servico) { %>
+							  R$ <%= notas[i].Servico.valor_unitario * notas[i].quantidade %>
+							<% } else { %>
+							  <!-- Se o objeto Servico não estiver definido -->
+							  N/A
+							<% } %>
+						</td>
+                        <td>
+                            <button class="btn btn-info btn-sm" onclick="btnRead( <%= notas[i].id %> )">Ver</button>
+                            <button class="btn btn-warning btn-sm" onclick="btnUpdate( <%= notas[i].id %> )">Editar</button>
+							<button class="btn btn-danger btn-sm" onclick="btnDelete( <%= notas[i].id %> , '<%= notas[i].Cliente.nome %>' )">Excluir</button>
+                        </td>
+                    </tr>
+                <% } %>
             </tbody>
         </table>
     </div>

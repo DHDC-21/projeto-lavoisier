@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title><%- title %></title>
+
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <script src="/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1><%- title %></h1>
+        <form action="" method="post">
+			<!-- Select de clientes -->
+            <div class="form-group">
+                <label for="inputClienteId">Cliente:</label>
+                <select class="form-control" id="inputClienteId" name="inputClienteId" required>
+					<option value="" disabled selected style="font-style: italic;"> Selecione um cliente </option>
+					<% for (let i = 0; i < clientes.length; i++) { %>
+						<option value="<%= clientes[i].id %>"> <%= clientes[i].nome%> </option>
+					<% } %>
+                </select>
+            </div>
+			<!-- Select de servicos -->
+            <div class="form-group">
+                <label for="inputServicoId">Tipo de Serviço:</label>
+                <select class="form-control" id="inputServicoId" name="inputServicoId" required>
+					<option value="" disabled selected style="font-style: italic;">Selecione um serviço</option>
+                    <% for (let i = 0; i < servicos.length; i++) { %>
+						<option value="<%= servicos[i].id %>"> <%= servicos[i].descricao%> </option>
+					<% } %>
+                </select>
+            </div>
+			<!-- Campo com o valor unitario do servico -->
+            <div class="form-group">
+                <label for="inputValorUnitario">Valor Unitário:</label>
+                <input type="text" class="form-control" id="inputValorUnitario" readonly>
+            </div>
+			<!-- Campo para entrar com a quantidade do servico selecionado -->
+            <div class="form-group">
+                <label for="inputQuantidade">Quantidade:</label>
+                <input type="number" class="form-control" id="inputQuantidade" name="inputQuantidade" required>
+            </div>
+			<!-- Campo com o calculo do valor total (valor unitario * quantidade)-->
+            <div class="form-group">
+                <label for="inputValorTotal">Valor Total:</label>
+                <input type="text" class="form-control" id="inputValorTotal" readonly>
+            </div>
+			<!-- Campo para entar com o prazo de entrega em dias -->
+            <div class="form-group">
+                <label for="inputPrazo">Prazo de Entrega (dias):</label>
+                <input type="number" class="form-control" id="inputPrazo" name="inputPrazo" required>
+            </div>
+			<!-- Campo que calcula o data de entrega do servico -->
+            <div class="form-group">
+                <label for="inputEntrega">Data de Entrega:</label>
+                <input type="text" class="form-control" id="inputEntrega" name="inputEntrega" readonly>
+            </div>
+            <a class="btn btn-primary" href="/notas">Voltar</a>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+
+	<script>
+
+		document.getElementById('inputClienteId').addEventListener('change', function() {
+			// Remove a opção padrão quando outra opção é selecionada
+			const defaultOption = document.querySelector('#inputClienteId option[value=""]');
+			if (defaultOption) {
+				defaultOption.remove();
+			}
+		});
+		document.getElementById('inputServicoId').addEventListener('change', function() {
+			// Remove a opção padrão quando outra opção é selecionada
+			const defaultOption = document.querySelector('#inputServicoId option[value=""]');
+			if (defaultOption) {
+				defaultOption.remove();
+			}
+		});
+
+
+		var servicos = <%- JSON.stringify(servicos) %>;
+		// Campo para pegar a o valor unitário do produto selecionado
+		document.getElementById('inputServicoId').addEventListener('change', function() {
+			var selectedServiceId = this.value;
+			var selectedService = servicos.find(servico => servico.id === parseInt(selectedServiceId));
+	
+			if (selectedService) {
+				document.getElementById('inputValorUnitario').value = selectedService.valor_unitario;
+			}
+		});
+
+
+		// Campo para entrar com a quantidade do serviço selecionado
+		const inputQuantidade = document.getElementById('inputQuantidade');
+		inputQuantidade.addEventListener('input', function() {
+			const quantidade = parseFloat(this.value);
+			const valorUnitario = parseFloat(document.getElementById('inputValorUnitario').value);
+			const valorTotal = quantidade * valorUnitario;
+			document.getElementById('inputValorTotal').value = valorTotal.toFixed(2);
+		});
+
+
+		// Campo para entrar com o prazo de entrega em dias
+		const inputPrazo = document.getElementById('inputPrazo');
+		inputPrazo.addEventListener('input', function() {
+			const prazoEntrega = parseInt(this.value);
+			const dataAtual = new Date();
+			dataAtual.setDate(dataAtual.getDate() + prazoEntrega);
+			const ano = dataAtual.getFullYear();
+			const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+			const dia = String(dataAtual.getDate()).padStart(2, '0');
+			const dataEntrega = `${dia}/${mes}/${ano}`;
+			document.getElementById('inputEntrega').value = dataEntrega;
+		});
+	</script>
+</html>
