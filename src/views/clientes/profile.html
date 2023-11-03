@@ -37,5 +37,46 @@
             <a href="/clientes/update/<%- cliente.id %>" class="btn btn-success">Atualizar</a>
         </div>
     </div>
+
+	<div class="container mt-5">
+        <h1>Notas do Cliente</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descrição do Serviço</th>
+                    <th>Valor Unitário</th>
+                    <th>Quantidade</th>
+                    <th>Sub-total</th>
+                </tr>
+            </thead>
+            <tbody>
+				<% let total = 0; %>
+
+				<% for( let i = 0; i < notas.length; i++ ) { %>
+					<tr>
+						<th><%= notas[i].id %></th>
+						<td><%= notas[i].Servico.descricao %></td>
+						<td>R$ <%= notas[i].Servico.valor_unitario %></td>
+						<td>x <%= notas[i].quantidade %></td>
+						<td>R$ <%= notas[i].Servico.valor_unitario * notas[i].quantidade %></td>
+					</tr>
+
+					<% total += (notas[i].Servico.valor_unitario * notas[i].quantidade); %>
+				<% } %>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="font-weight-bold">Total:</td>
+					<td>R$ <%= total %></td>
+				</tr>
+
+			</tfoot>
+        </table>
+    </div>
+
 </body>
 </html>

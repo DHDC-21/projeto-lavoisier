@@ -4,7 +4,8 @@ const router = express.Router();
 
 
 const Cliente = require('../models/Cliente.js');
-const { where } = require('sequelize');
+const NotaDeServico = require('../models/NotaDeServico.js');
+const Servico = require('../models/Servico.js');
 
 // INDEX
 router
@@ -65,9 +66,15 @@ router.get("/read/:id", async (req, res) => {
 	const cliente = await Cliente.findOne(
 		{ where: { id: codigo } }
 	);
+	const notas = await NotaDeServico.findAll({
+		include: [Cliente, Servico],
+		where: {
+			ClienteID: codigo
+		}
+	})
 	
 	if(cliente){
-		res.render('clientes/profile',{title:'Ficha do Cliente', cliente});
+		res.render('clientes/profile',{title:'Ficha do Cliente', cliente, notas});
 	} else{
 		res.render('erro',{msg:'Cliente nao encontrado!'})
 	}

@@ -48,8 +48,18 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Lógica de programação para exibir lista de funcionários -->
-                
+                <% for( let i = 0; i < funcionarios.length; i++ ) { %>
+				<tr>
+					<th><%= funcionarios[i].id %></th>
+					<th><%= funcionarios[i].nome %></th>
+					<th><%= funcionarios[i].telefone %></th>
+					<th>
+						<button class="btn btn-info btn-sm" onclick="btnRead(<%= funcionarios[i].id %>)">Ver</button>
+						<button class="btn btn-warning btn-sm" onclick="btnUpdate(<%= funcionarios[i].id %>)">Editar</button>
+						<button class="btn btn-danger btn-sm" onclick="btnDelete(<%= funcionarios[i].id %>, '<%= funcionarios[i].nome %>')">Excluir</button>
+					</th>
+				</tr>
+				<% } %>
             </tbody>
         </table>
     </div>

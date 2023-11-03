@@ -2,15 +2,11 @@
 const express = require('express');
 const router = express.Router();
 
-// Importacoes necessaria para criar usuario
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const Usuario = require('../models/Usuario.js');
-
+const { checkAuthCookie } = require('../middlewares/authMiddleware.js')
 
 // MENU PRINCIPAL
 router
- .get('/', (req,res)=>{
+ .get('/', checkAuthCookie, (req,res)=>{
 	res.render('index',{title:'Menu Inicial'});
  })
  .get("/home", (req,res)=>{
