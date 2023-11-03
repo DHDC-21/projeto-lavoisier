@@ -2,10 +2,12 @@
 const express = require('express');
 const router = express.Router();
 
+// const { checkAuthCookie } = require('../middlewares/authMiddleware.js');
 
 const Cliente = require('../models/Cliente.js');
 const NotaDeServico = require('../models/NotaDeServico.js');
 const Servico = require('../models/Servico.js');
+
 
 // INDEX
 router
