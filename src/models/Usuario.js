@@ -1,36 +1,36 @@
-/*Modelagem:
-		Usuário(
-		PK	cod_usuário,
-		FK	cod_funcionário,
-			senha,
-			isADM,
-		)
-*/
 
 const { DataTypes, Sequelize } = require('sequelize');
 const database = require('../config/_connectionDB.js');
-const Funcionario = require('./Funcionario.js');
-require('dotenv').config();
+
+// const Funcionario = require('./Funcionario.js');
 
 const Usuario = database.define('Usuario', {
-	//atributos
-	username: {
+	email: {
 		type: DataTypes.STRING,
-		allowNull: false
+		allowNull: true,
+		validate: {
+			isEmail: true,
+		},
+	},
+	username: {
+		type: DataTypes.STRING(50),
+		allowNull: false,
+		validate: {
+			len: [5, 50],
+		},
 	},
 	password: {
 		type: DataTypes.STRING,
-		allowNull: false
+		allowNull: false,
 	},
 	isAdmin: {
 		type: DataTypes.BOOLEAN,
 		defaultValue: false,
-	}
-}, {
-	//opções
+	},
 });
 
-Usuario.belongsTo(Funcionario);
+// Apesar da relacao 1:1 nao e possivel ambos os bancos terem chaves estrangeiras um do outro entao apenas Funcionario tera essa associacao
+// Usuario.belongsTo(Funcionario, { unique: true });
 
 
 module.exports = Usuario;

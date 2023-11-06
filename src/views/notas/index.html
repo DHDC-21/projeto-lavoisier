@@ -54,8 +54,8 @@
                 <!-- Lógica de programação para exibir lista de notas de serviço -->
 				<% for(let i = 0; i < notas.length; i++){ %>
                     <tr>
-                        <td><%= notas[i].id %></td>
-                        <td><%= notas[i].Cliente.nome %></td>
+                        <td><%= notas[i].NotaDeServico.id %></td>
+                        <td>Cliente(<%= notas[i].NotaDeServico.ClienteId %>)</td>
                         <td><%= notas[i].Servico.descricao %></td>
 						<td>R$ <%= notas[i].Servico.valor_unitario%></td>
 						<td>x <%= notas[i].quantidade %></td>
@@ -68,9 +68,9 @@
 							<% } %>
 						</td>
                         <td>
-                            <button class="btn btn-info btn-sm" onclick="btnRead( <%= notas[i].id %> )">Ver</button>
-                            <button class="btn btn-warning btn-sm" onclick="btnUpdate( <%= notas[i].id %> )">Editar</button>
-							<button class="btn btn-danger btn-sm" onclick="btnDelete( <%= notas[i].id %> , '<%= notas[i].Cliente.nome %>' )">Excluir</button>
+                            <button class="btn btn-info btn-sm" onclick="btnRead( <%= notas[i].NotaDeServico.id %> )">Ver</button>
+                            <button class="btn btn-warning btn-sm" onclick="btnUpdate( <%= notas[i].NotaDeServico.id %> )">Editar</button>
+							<button class="btn btn-danger btn-sm" onclick="btnDelete( <%= notas[i].NotaDeServico.id %>)">Excluir</button>
                         </td>
                     </tr>
                 <% } %>

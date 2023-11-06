@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title> <%- title %> </title>
+
+	<link rel="stylesheet" href="/bootstrap.min.css">
+	<script src="/bootstrap.bundle.min.js"></script>
+	
+</head>
+
+<body>
+
+
+	<div class="container">
+		<!-- Parte Superior - Informações do Cliente -->
+		<div class="row mt-4">
+			<div class="col">
+				<h2>Informações do Cliente</h2>
+				<p><strong>Nome do Cliente:</strong> <%= cliente.Pessoa.nome %></p>
+				<p><strong>CPF:</strong> <%= cliente.Pessoa.cpf %></p>
+				<p><strong>Telefone:</strong> <%= cliente.Pessoa.telefone %></p>
+			</div>
+		</div>
+	
+		<!-- Parte Inferior - Informações da Nota -->
+		<div class="row mt-4">
+			<div class="col">
+				<h2>Informações da Nota de Serviço</h2>
+				<p><strong>Número da Nota:</strong> <%= nota[0].NotaDeServico.id %></p>
+				<p><strong>Prazo de Entrega:</strong> <%= nota[0].NotaDeServico.prazo%> dias</p>
+				<p><strong>Data de Entrega:</strong> <%= nota[0].NotaDeServico.entrega%></p>
+			</div>
+		</div>
+	
+		   <!-- Tabela de Itens -->
+		   <div class="row mt-4">
+			<div class="col">
+				<h2>Itens da Nota</h2>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Descrição</th>
+							<th>Valor Unitário</th>
+							<th>Quantidade</th>
+							<th>Subtotal</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% for (let i = 0; i < nota.length; i++) { %>
+							<tr>
+								<td><%= nota[i].Servico.descricao %></td>
+								<td><%= nota[i].Servico.valor_unitario %></td>
+								<td><%= nota[i].quantidade %></td>
+								<td><%= nota[i].Servico.valor_unitario * nota[i].quantidade %></td>
+							</tr>
+							<% total += (itens[i].Servico.valor_unitario * itens[i].quantidade); %>
+						<% } %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	
+		<!-- Total da Nota -->
+		<div class="row mt-4">
+			<div class="col">
+				<h3>Total da Nota: <%= total%> </h3>
+			</div>
+		</div>
+	
+		<!-- Rodapé -->
+		<div class="row mt-4">
+			<div class="col">
+				<a href="/notas" class="btn btn-primary">Voltar para Notas</a>
+				<a href="/clientes/read/<%= cliente.id %>" class="btn btn-info">Visualizar Cliente</a>
+				<a href="/notas/update/<%= nota[0].NotaDeServico.id %>" class="btn btn-warning">Atualizar Nota</a>
+			</div>
+		</div>
+	</div>
+		
+</body>
+</html>

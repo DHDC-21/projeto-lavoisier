@@ -17,6 +17,7 @@ const noteRoutes = require("./controllers/note.routes.js");
 const serviceRoutes = require("./controllers/service.routes.js");
 const employeeRoutes = require("./controllers/employee.routes.js");
 const userRoutes = require("./controllers/users.routes.js");
+const { gerarUserRoot } = require("./config/setup.js");
 
 
 
@@ -60,6 +61,8 @@ app.use("/servicos", serviceRoutes);
 app.use("/funcionarios", employeeRoutes);
 app.use("/usuarios", userRoutes);
 
+// Gerar usuário padrão após o banco de dados ser recriado.
+if(process.env.DB_FORCE == 'true') gerarUserRoot();
 
 /***********************
  * ! EXPORTANDO O APP *

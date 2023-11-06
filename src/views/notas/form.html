@@ -21,7 +21,7 @@
                 <select class="form-control" id="inputClienteId" name="inputClienteId" required>
 					<option value="" disabled selected style="font-style: italic;"> Selecione um cliente </option>
 					<% for (let i = 0; i < clientes.length; i++) { %>
-						<option value="<%= clientes[i].id %>"> <%= clientes[i].nome%> </option>
+						<option value="<%= clientes[i].id %>"> <%= clientes[i].Pessoa.nome%> </option>
 					<% } %>
                 </select>
             </div>

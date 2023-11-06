@@ -9,6 +9,7 @@ require('dotenv').config();
 
 const { checkAuthCookie } = require('../middlewares/authMiddleware.js');
 const Usuario = require('../models/Usuario.js');
+const { and, Sequelize } = require('sequelize');
 
 
 // MENU PRINCIPAL
@@ -23,7 +24,7 @@ router
 
 // ROTA DE ERRO
  .get('/erro', (req,res)=>{
-	res.render('error', {msg:'Uma mensagem de erro ocorreu. Insira a mensagem de erro aqui.'});
+	res.render('error', {msg:'Uma mensagem de erro ocorreu. Insira a mensagem de erro aqui. Isso é um teste de erro, aperte VOLTAR para home.', router:'/home'});
  })
 
 
@@ -33,22 +34,29 @@ router
   })
   
  .post("/login", async (req, res)=>{
-	const { inputUsername, inputPassword } = req.body;
+	const { inputUser, inputPassword } = req.body;
   
 	try {
-	  const user = await Usuario.findOne({ where: { username: inputUsername } });
+	  const usuario = await Usuario.findOne({
+		where:{
+			[Sequelize.Op.or]:[
+				{username: inputUser},
+				{email: inputUser},
+			]
+		}
+	  });
   
-	  if (!user) {
+	  if (!usuario) {
 		return res.render('login', { title: 'Login', msg: 'Usuário não encontrado.' });
 	  }
   
-	  const checkPassword = await bcrypt.compare(inputPassword, user.password);
+	  const checkPassword = await bcrypt.compare(inputPassword, usuario.password);
   
 	  if (!checkPassword) {
 		return res.render('login', { title: 'Login', msg: 'Usuário e/ou senha estão errados!' });
 	  }
   
-	  res.cookie('auth_token', jwt.sign({ id: user.id }, process.env.SECRET, { expiresIn: '1h' }));
+	  res.cookie('auth_token', jwt.sign({ id: usuario.id }, process.env.SECRET, { expiresIn: '1h' }));
   
 	  res.redirect('/'); // Redireciona para a rota raiz
 	} catch (error) {

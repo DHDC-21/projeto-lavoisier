@@ -3,19 +3,31 @@ const express = require('express');
 const router = express.Router();
 
 
+const Pessoa = require('../models/Pessoa.js');
 
+const Usuario = require('../models/Usuario.js');
 const Cliente = require('../models/Cliente.js');
+
 const NotaDeServico = require('../models/NotaDeServico.js');
+const ItemDaNota = require('../models/ItemDaNota.js');
 const Servico = require('../models/Servico.js');
 
 
+
+// INDEX
 router
 .get("/", async (req,res)=>{
-	const notas = await NotaDeServico.findAll({
-		include: [Cliente, Servico],
-	});
-	  
-	res.render("notas/index", { title: 'CONTROLE DE NOTAS', notas });	  
+	try {
+		const notas = await ItemDaNota.findAll({
+			include:[NotaDeServico, Servico],
+		});
+
+		res.render("notas/index", { title: 'CONTROLE DE NOTAS', notas });	 
+
+	} catch (error) {
+		console.log(error);
+		res.render('error',{msg:'Recurso indisponível!', router:'/'})
+	}
 })
 
 
@@ -23,23 +35,35 @@ router
 router
  .get('/create', async (req,res)=>{
 	 try {
-		const clientes = await Cliente.findAll();
+		const clientes = await Cliente.findAll({include:[Pessoa]});
 		const servicos = await Servico.findAll();
-		const nota = {};
-		res.render('notas/form',{title:'Entrada de Nota', clientes, servicos, nota});
+		res.render('notas/form',{title:'Entrada de Nota', clientes, servicos});
 	} catch (error) {
 		res.render('error',{msg:error});
 	}
  })
  .post('/create', async (req,res)=>{
 	const {inputClienteId, inputServicoId, inputQuantidade, inputPrazo} = req.body;
-	await NotaDeServico.create({
-		quantidade: inputQuantidade,
-		prazo: inputPrazo,
-		ClienteId: inputClienteId,
-		ServicoId: inputServicoId
-	})
-	res.redirect('/notas')
+	try {
+		const novaNota = await NotaDeServico.create({
+			ClienteId: inputClienteId,
+			prazo: inputPrazo,
+		});
+
+		const novoItem = await ItemDaNota.create({
+			quantidade: inputQuantidade,
+			NotaDeServicoId: novaNota.id,
+			ServicoId: inputServicoId,
+		});
+		
+		console.log('Entrada de nota! ', novaNota, novoItem);
+		res.redirect('/notas');
+
+	} catch (error) {
+		console.log(error);
+		res.render('error',{msg:'Erro ao cadastrar nota.', router:'/notas'});
+	} 
+	
  });
 
 
@@ -47,11 +71,17 @@ router
 router.get('/read/:id', async (req,res)=>{
 	const codigo = req.params.id;
 	try {
-		const nota = await NotaDeServico.findOne({
-			include: [Cliente, Servico],
-			where: { id: codigo }
+		const nota = await ItemDaNota.findAll({
+			include: [NotaDeServico, Servico],
+			where: { NotaDeServicoId: codigo },
 		});
-		res.render('notas/profile', {title:'Detalhes da nota (${nota.id})', nota});
+
+		const cliente = await Cliente.findOne({
+			include:[Pessoa],
+			where:{id: nota[0].NotaDeServico.ClienteId},
+		})
+
+		res.render('notas/profile', {title:'Detalhes da nota (${nota.id})', nota, cliente});
 	} catch (error) {
 		res.render('error',{msg:error});
 	}
@@ -63,9 +93,15 @@ router
  .get('/update/:id', async (req,res)=>{
 	const codigo = req.params.id;
 	try {
-		const nota = await NotaDeServico.findOne({where:{id:codigo}});
-		const clientes = await Cliente.findAll({where:{id:nota.ClienteId}});
+		const nota = await ItemDaNota.findOne({
+			include:[NotaDeServico, Servico],
+			where:{NotaDeServicoId:codigo}
+		});
+
+		const clientes = await Cliente.findAll({include:[Pessoa],where:{id:nota.NotaDeServico.ClienteId}});
+
 		const servicos = await Servico.findAll(/*{where:{id:nota.ServicoId}}*/);
+
 		res.render('notas/form',{title:'Formulario de Atualização - Cod.(' + nota.id + ')', nota, clientes, servicos});
 	} catch (error) {
 		res.render('error',{msg:error});
@@ -75,15 +111,24 @@ router
 	const codigo = req.params.id;
 	const {inputClienteId, inputServicoId, inputQuantidade, inputPrazo} = req.body;
 	try {
-		await NotaDeServico.update({
-			quantidade: inputQuantidade,
-			prazo: inputPrazo,
+		const nota = await NotaDeServico.update({
 			ClienteId: inputClienteId,
-			ServicoId: inputServicoId
+			prazo: inputPrazo,
 		},{
 			where: { id: codigo }
 		});
+
+		const item = await ItemDaNota.update({
+			NotaDeServicoId: codigo,
+			ServicoId: inputServicoId,
+			quantidade: inputQuantidade,
+		},{
+			where:{NotaDeServicoId: codigo}
+		});
+
+		console.log('Atualização de nota: ', nota, item);
 		res.redirect('/notas');
+
 	} catch (error) {
 		res.render('error',{msg:error});
 	}
@@ -94,12 +139,20 @@ router
 router.get('/delete/:id', async (req,res)=>{
 	const codigo = req.params.id;
 	try {
-		await NotaDeServico.destroy({
+		const nota = await NotaDeServico.destroy({
 			where: { id: codigo}
 		});
+
+		const item = await ItemDaNota.destroy({
+			where:{NotaDeServicoId:codigo}
+		});
+
+		console.log('Nota deletada! ', nota, item);
 		res.redirect('/notas');
+
 	} catch (error) {
-		res.render('error',{msg:error});
+		console.log(error)
+		res.render('error',{msg:'Esso ao deletar nota', router:''});
 	}
 });
 

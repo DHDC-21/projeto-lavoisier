@@ -68,12 +68,12 @@
                 <% for(let i = 0; i < clientes.length; i++){ %>
                     <tr>
                         <td><%= clientes[i].id %></td>
-                        <td><%= clientes[i].nome %></td>
-                        <td><%= clientes[i].telefone %></td>
+                        <td><%= clientes[i].Pessoa.nome %></td>
+                        <td><%= clientes[i].Pessoa.telefone %></td>
                         <td>
                             <button class="btn btn-info btn-sm" onclick="btnRead(<%= clientes[i].id %>)">Ver</button>
                             <button class="btn btn-warning btn-sm" onclick="btnUpdate(<%= clientes[i].id %>)">Editar</button>
-							<button class="btn btn-danger btn-sm" onclick="btnDelete(<%= clientes[i].id %>, '<%= clientes[i].nome %>')">Excluir</button>
+							<button class="btn btn-danger btn-sm" onclick="btnDelete(<%= clientes[i].id %>, '<%= clientes[i].Pessoa.nome %>')">Excluir</button>
                         </td>
                     </tr>
                 <% } %>

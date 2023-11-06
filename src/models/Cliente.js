@@ -1,60 +1,14 @@
-/* Modelagem:
-		Cliente(
-		PK	cod_cliente,
-			cpf,
-			telefone,
-			logradouro,
-			num_casa,
-			bairro,
-			cep,
-			cidade
-		)
-*/
+// Revisão do dia 2023-11-03 com base na modelagem da pasta public/diagrams.
 
 const DataTypes = require('sequelize');
 const database = require('../config/_connectionDB.js');
 
-const Cliente = database.define('Cliente', {
-	//atributos
-	nome: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	cpf: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	dt_nascimento: {
-		type: DataTypes.DATEONLY,
-		allowNull: false
-	},
-	//endereço
-	logradouro: {
-		type: DataTypes.STRING,
-		allowNull: true
-	},
-	n_casa: {
-		type: DataTypes.STRING,
-		allowNull: true
-	},
-	bairro: {
-		type: DataTypes.STRING,
-		allowNull: true
-	},
-	cep: {
-		type: DataTypes.STRING,
-		allowNull: true
-	},
-	cidade: {
-		type: DataTypes.STRING,
-		allowNull: true
-	},
-	telefone: {
-		type: DataTypes.STRING,
-		allowNull: true
-	}
-}, {
-	//opções
+const Pessoa = require('./Pessoa.js');
+
+
+const Cliente = database.define('Cliente', {});
+Cliente.belongsTo(Pessoa, {
+	unique: true,
 });
 
 

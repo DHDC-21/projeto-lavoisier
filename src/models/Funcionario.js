@@ -1,58 +1,20 @@
-/*Modelagem:
-	Funcionário(
-	PK	cod_funcionário,
-		nome,
-		cpf,
-		dt_nascimento,
-		logradouro,
-		num_casa,
-		bairro,
-		cep,
-		cidade,
-	)
-*/
-
 const DataTypes = require('sequelize');
 const database = require('../config/_connectionDB.js');
 
+const Pessoa = require('./Pessoa.js');
+const Usuario = require('./Usuario.js');
+
 const Funcionario = database.define('Funcionario', {
-	//atributos
-	nome: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	cpf: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	dt_nascimento: {
-		type: DataTypes.DATEONLY,
-		allowNull: false
-	},
-	//endereço
-	logradouro: {
-		type: DataTypes.STRING,
-		allowNull: true
-	},
-	n_casa: {
-		type: DataTypes.STRING,
-		allowNull: true
-	},
-	bairro: {
-		type: DataTypes.STRING,
-		allowNull: true
-	},
-	cep: {
-		type: DataTypes.STRING,
-		allowNull: true
-	},
-	cidade: {
-		type: DataTypes.STRING,
-		allowNull: true
-	}	
-}, {
-	//opções
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
 });
+
+Funcionario.belongsTo(Pessoa, {unique:true});
+
+Funcionario.belongsTo(Usuario, { unique: true });
 
 
 module.exports = Funcionario;

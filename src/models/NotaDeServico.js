@@ -1,33 +1,32 @@
-/*Modelagem:
-		Nota_de_Serviço(
-		PK	cod_nota,
-		FK	cod_usuário,
-		FK	cod_cliente,
-			val_total,
-			dt_entrega,
-			prazo
-		)
-*/
+// Revisão do dia 2023-11-03 com base na modelagem da pasta public/diagrams.
 
 const DataTypes = require('sequelize');
 const database = require('../config/_connectionDB.js');
 
+const Usuario = require('./Usuario.js');
 const Cliente = require('./Cliente.js');
-const Servico = require('./Servico.js');
+
+// const Servico = require('./Servico.js');
+// const ItemDaNota = require('./ItemDaNota.js');
+
 
 const NotaDeServico = database.define('NotaDeServico',{
-	quantidade: {
-		type: DataTypes.INTEGER,
-		allowNull: true
+	total: {
+		type: DataTypes.DECIMAL,
+		allowNull: true,
 	},
 	prazo: {
 		type: DataTypes.INTEGER,
-		allowNull: true
+		allowNull: false
+	},
+	entrega: {
+		type: DataTypes.DATEONLY,
+		allowNull: true,
 	}
 });
 
 NotaDeServico.belongsTo(Cliente);
-NotaDeServico.belongsTo(Servico);
+NotaDeServico.belongsTo(Usuario);
 
 
 module.exports = NotaDeServico;

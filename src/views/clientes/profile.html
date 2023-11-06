@@ -19,15 +19,15 @@
             <div class="card-body">
                 <h5 class="card-title">Informações do Cliente</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Nome:</strong> <%- cliente.nome %></li>
-                    <li class="list-group-item"><strong>CPF:</strong> <%- cliente.cpf %></li>
-                    <li class="list-group-item"><strong>Data de Nascimento:</strong> <%- cliente.dt_nascimento %></li>
-                    <li class="list-group-item"><strong>Logradouro:</strong> <%- cliente.logradouro %></li>
-                    <li class="list-group-item"><strong>Número da Casa:</strong> <%- cliente.n_casa %></li>
-                    <li class="list-group-item"><strong>Bairro:</strong> <%- cliente.bairro %></li>
-                    <li class="list-group-item"><strong>CEP:</strong> <%- cliente.cep %></li>
-                    <li class="list-group-item"><strong>Cidade:</strong> <%- cliente.cidade %></li>
-                    <li class="list-group-item"><strong>Telefone:</strong> <%- cliente.telefone %></li>
+                    <li class="list-group-item"><strong>Nome:</strong> <%- cliente.Pessoa.nome %></li>
+                    <li class="list-group-item"><strong>CPF:</strong> <%- cliente.Pessoa.cpf %></li>
+                    <li class="list-group-item"><strong>Data de Nascimento:</strong> <%- cliente.Pessoa.dt_nascimento %></li>
+                    <li class="list-group-item"><strong>Logradouro:</strong> <%- cliente.Pessoa.logradouro %></li>
+                    <li class="list-group-item"><strong>Número da Casa:</strong> <%- cliente.Pessoa.n_casa %></li>
+                    <li class="list-group-item"><strong>Bairro:</strong> <%- cliente.Pessoa.bairro %></li>
+                    <li class="list-group-item"><strong>CEP:</strong> <%- cliente.Pessoa.cep %></li>
+                    <li class="list-group-item"><strong>Cidade:</strong> <%- cliente.Pessoa.cidade %></li>
+                    <li class="list-group-item"><strong>Telefone:</strong> <%- cliente.Pessoa.telefone %></li>
                 </ul>
             </div>
         </div>
@@ -53,16 +53,16 @@
             <tbody>
 				<% let total = 0; %>
 
-				<% for( let i = 0; i < notas.length; i++ ) { %>
+				<% for( let i = 0; i < itens.length; i++ ) { %>
 					<tr>
-						<th><%= notas[i].id %></th>
-						<td><%= notas[i].Servico.descricao %></td>
-						<td>R$ <%= notas[i].Servico.valor_unitario %></td>
-						<td>x <%= notas[i].quantidade %></td>
-						<td>R$ <%= notas[i].Servico.valor_unitario * notas[i].quantidade %></td>
+						<th><%= itens[i].NotaDeServico.id %></th>
+						<td><%= itens[i].Servico.descricao %></td>
+						<td>R$ <%= itens[i].Servico.valor_unitario %></td>
+						<td>x <%= itens[i].quantidade %></td>
+						<td>R$ <%= itens[i].Servico.valor_unitario * itens[i].quantidade %></td>
 					</tr>
 
-					<% total += (notas[i].Servico.valor_unitario * notas[i].quantidade); %>
+					<% total += (itens[i].Servico.valor_unitario * itens[i].quantidade); %>
 				<% } %>
 			</tbody>
 			<tfoot>
