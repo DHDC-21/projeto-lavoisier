@@ -19,107 +19,94 @@
 		<br>
         <form action="" method="post">
             <div class="form-group">
-                <label for="inputNome">Nome:</label>
+                <label for="inputRazaoSocial">Nome ou Razão Social:</label>
                 <input
 					type="text"
 					class="form-control"
-					id="inputNome" name="inputNome"
+					id="inputRazaoSocial" name="inputRazaoSocial"
 					minlength="5" maxlength="255"
-					value="<%= cliente.Pessoa.nome %>"
+					value="<%= cliente.razao_social %>"
 				required >
             </div>
 			
             <div class="form-group">
-				<label for="inputCPF">CPF:</label>
+				<label for="inputCpfCnpj">CPF ou CNPJ:</label>
                 <input
 					type="text"
 					class="form-control"
-					id="inputCPF" name="inputCPF"
-					minlength="11" maxlength="11"
-					value="<%= cliente.Pessoa.cpf %>"
+					id="inputCpfCnpj" name="inputCpfCnpj"
+					minlength="11" maxlength="14"
+					value="<%= cliente.cpf_cnpj %>"
 					required>
-				</div>
-				
+			</div>
+
 			<div class="form-group">
-				<label for="inputDtNascimento">Data de Nascimento:</label>
-				<input
+			  <label for="inputInscMunicipal">Inscrição Municipal:</label>
+			  <input
+			  	type="text"
+				class="form-control"
+				name="inputInscMunicipal" id="inputInscMunicipal"
+				placeholder=""
+				value="<%= cliente.insc_municipal %>"
+				required>
+			</div>
+			
+			<!--
+				<div class="form-group">
+					<label for="inputDtNascimento">Data de Nascimento:</label>
+					<input
 					type="date"
 					class="form-control"
 					id="inputDtNascimento" name="inputDtNascimento"
-					value="<%= cliente.Pessoa.dt_nascimento %>"
-				required>
-            </div>
+					value=""
+					required>
+				</div>
+			-->
 
             <div class="form-group">
-                <label for="inputLogradouro">Logradouro:</label>
+                <label for="inputEndereco">Endereço:</label>
                 <input
 					type="text"
 					class="form-control"
-					id="inputLogradouro" name="inputLogradouro"
+					id="inputEndereco" name="inputEndereco"
 					minlength="5" maxlength="255"
-					value="<%= cliente.Pessoa.logradouro %>"
+					value="<%= cliente.endereco %>"
 				required>
             </div>
 
             <div class="form-group">
-                <label for="inputNCasa">Número da Casa:</label>
+                <label for="inputMunicipio">Municipio:</label>
                 <input
 					type="text"
 					class="form-control"
-					id="inputNCasa" name="inputNCasa"
-					minlength="1" maxlength="10"
-					value="<%= cliente.Pessoa.n_casa %>"
-				required>
-            </div>
-
-            <div class="form-group">
-                <label for="inputBairro">Bairro:</label>
-                <input
-					type="text"
-					class="form-control"
-					id="inputBairro" name="inputBairro"
-					minlength="5" maxlength="100"
-					value="<%= cliente.Pessoa.bairro %>"
-				required>
-            </div>
-
-            <div class="form-group">
-                <label for="inputCEP">CEP:</label>
-				<input
-					type="text"
-					class="form-control"
-					id="inputCEP" name="inputCEP"
-					minlength="8" maxlength="8" 
-					value="<%= cliente.Pessoa.cep %>"
-				required>
-            </div>
-
-            <div class="form-group">
-                <label for="inputCidade">Cidade:</label>
-                <input
-					type="text"
-					class="form-control"
-					id="inputCidade" name="inputCidade"
+					id="inputMunicipio" name="inputMunicipio"
 					minlength="1" maxlength="100"
-					value="<%= cliente.Pessoa.cidade %>"
+					value="<%= cliente.municipio %>"
 				required>
             </div>
+			
+			<div class="form-group">
+			  <label for="inputEstado">Estado:</label>
+			  <select class="form-control" name="inputEstado" id="inputEstado" required>
+				<option value="SP">São Paulo (SP)</option>
+			  </select>
+			</div>
 
-            <div class="form-group">
-                <label for="inputTelefone">Telefone:</label>
-                <input
-					type="tel"
-					class="form-control"
-					id="inputTelefone" name="inputTelefone"
-					minlength="10" maxlength="11"
-					value="<%= cliente.Pessoa.telefone %>"
+			<div class="form-group">
+			  <label for="inputEmail">E-mail:</label>
+			  <input
+			  	type="email"
+				class="form-control"
+				name="inputEmail" id="inputEmail"
+				placeholder=""
+				value="<%= cliente.email %>"
 				required>
-            </div>
-
+			</div>
+			<br>
 			<a href="/clientes" class="btn btn-primary">VOLTAR</a>
             <button type="submit" class="btn btn-primary">SALVAR</button>
-
         </form>
+		<p><%- msg %></p>
     </div>
 	
 </body>

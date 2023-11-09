@@ -41,7 +41,8 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Código</th>
+					<th>Cód.Nota</th>
+                    <th>Cód.Item</th>
                     <th>Cliente</th>
                     <th>Serviço</th>
 					<th>Valor Unitário</th>
@@ -52,25 +53,26 @@
             </thead>
             <tbody>
                 <!-- Lógica de programação para exibir lista de notas de serviço -->
-				<% for(let i = 0; i < notas.length; i++){ %>
+				<% for(let i = 0; i < nota.length; i++){ %>
                     <tr>
-                        <td><%= notas[i].NotaDeServico.id %></td>
-                        <td>Cliente(<%= notas[i].NotaDeServico.ClienteId %>)</td>
-                        <td><%= notas[i].Servico.descricao %></td>
-						<td>R$ <%= notas[i].Servico.valor_unitario%></td>
-						<td>x <%= notas[i].quantidade %></td>
+						<td><%= nota[i].id %></td>
+						<td><%= nota[i].ItensDaNota %></td>
+						<td><%= nota[i].Cliente.razao_social %></td>
+						<td><%= nota[i].Servico %></td>
+						<td><%= nota[i].Servico %></td>
+						<td><%= nota[i].quantidade %></td>
 						<td>
-							<% if (notas[i].Servico) { %>
-							  R$ <%= notas[i].Servico.valor_unitario * notas[i].quantidade %>
+							<% if (nota[i].Servico) { %>
+							  R$ <%= nota[i].Servico.valor_unitario * nota[i].ItensDaNota.quantidade %>
 							<% } else { %>
 							  <!-- Se o objeto Servico não estiver definido -->
 							  N/A
 							<% } %>
 						</td>
                         <td>
-                            <button class="btn btn-info btn-sm" onclick="btnRead( <%= notas[i].NotaDeServico.id %> )">Ver</button>
-                            <button class="btn btn-warning btn-sm" onclick="btnUpdate( <%= notas[i].NotaDeServico.id %> )">Editar</button>
-							<button class="btn btn-danger btn-sm" onclick="btnDelete( <%= notas[i].NotaDeServico.id %>)">Excluir</button>
+                            <button class="btn btn-info btn-sm" onclick="btnRead( <%= nota[i].id %> )">Ver</button>
+                            <button class="btn btn-warning btn-sm" onclick="btnUpdate( <%= nota[i].id %> )">Editar</button>
+							<button class="btn btn-danger btn-sm" onclick="btnDelete( <%= nota[i].id %>)">Excluir</button>
                         </td>
                     </tr>
                 <% } %>
@@ -105,7 +107,6 @@
             }
         }
     </script>
-	<%- include('../partials/logout.ejs') %>
 </body>
 
 </html>

@@ -12,71 +12,51 @@
 </head>
 
 <body>
-    <div class="container mt-4">
-        <h1><%-title%></h1>
 
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title">Informações do Cliente</h5>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Nome:</strong> <%- cliente.Pessoa.nome %></li>
-                    <li class="list-group-item"><strong>CPF:</strong> <%- cliente.Pessoa.cpf %></li>
-                    <li class="list-group-item"><strong>Data de Nascimento:</strong> <%- cliente.Pessoa.dt_nascimento %></li>
-                    <li class="list-group-item"><strong>Logradouro:</strong> <%- cliente.Pessoa.logradouro %></li>
-                    <li class="list-group-item"><strong>Número da Casa:</strong> <%- cliente.Pessoa.n_casa %></li>
-                    <li class="list-group-item"><strong>Bairro:</strong> <%- cliente.Pessoa.bairro %></li>
-                    <li class="list-group-item"><strong>CEP:</strong> <%- cliente.Pessoa.cep %></li>
-                    <li class="list-group-item"><strong>Cidade:</strong> <%- cliente.Pessoa.cidade %></li>
-                    <li class="list-group-item"><strong>Telefone:</strong> <%- cliente.Pessoa.telefone %></li>
-                </ul>
-            </div>
-        </div>
+	<div class="container">
+		<%- title %>
+		<div class="row">
 
-        <div class="mt-4">
-            <a href="/clientes" class="btn btn-primary">Voltar</a>
-            <a href="/clientes/update/<%- cliente.id %>" class="btn btn-success">Atualizar</a>
-        </div>
-    </div>
+			<div class="col-xs-1-12">
+				<div class="card">
+			  		<div class="card-body">
+						<h3 class="card-title">Descrição:</h3>
+						<p class="card-text">Text</p>
+			  		</div>
+				</div>
+		  	</div>
 
-	<div class="container mt-5">
-        <h1>Notas do Cliente</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Descrição do Serviço</th>
-                    <th>Valor Unitário</th>
-                    <th>Quantidade</th>
-                    <th>Sub-total</th>
-                </tr>
-            </thead>
-            <tbody>
-				<% let total = 0; %>
+		 	<div class="col-xs-1-12">
+				<div class="card">
+					<div class="card-body">
+						<h3 class="card-title">Valor Unitario:</h3>
+						<p class="card-text">R$ 0,00</p>
+					</div>
+				</div>
+			</div>
 
-				<% for( let i = 0; i < itens.length; i++ ) { %>
-					<tr>
-						<th><%= itens[i].NotaDeServico.id %></th>
-						<td><%= itens[i].Servico.descricao %></td>
-						<td>R$ <%= itens[i].Servico.valor_unitario %></td>
-						<td>x <%= itens[i].quantidade %></td>
-						<td>R$ <%= itens[i].Servico.valor_unitario * itens[i].quantidade %></td>
-					</tr>
+			<div class="col-xs-1-12">
+				<div class="card">
+					<div class="card-body">
+						<h3 class="card-title">Quantidade:</h3>
+						<p class="card-text">x Number</p>
+					</div>
+				</div>
+			</div>
 
-					<% total += (itens[i].Servico.valor_unitario * itens[i].quantidade); %>
-				<% } %>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td class="font-weight-bold">Total:</td>
-					<td>R$ <%= total %></td>
-				</tr>
+			<div class="col-xs-1-12">
+				<div class="card">
+					<div class="card-body">
+						<h3 class="card-title">Subtotal:</h3>
+						<p class="card-text">R$ 0,00</p>
+					</div>
+				</div>
+			</div>
 
-			</tfoot>
-        </table>
-    </div>
+			
+		</div>
 
+	</div>
+    
 </body>
 </html>

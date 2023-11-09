@@ -1,19 +1,26 @@
-// Revisão do dia 2023-11-03 com base na modelagem da pasta public/diagrams.
 
-const DataTypes = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 const database = require('../config/_connectionDB.js');
+
+const Nota = require('./Nota.js');
 
 
 const Servico = database.define('Servico',{
-	descricao: {
+	descricao:{
 		type: DataTypes.STRING,
-		allowNull: false
+		allowNull: true,
 	},
-	valor_unitario: {
+	valor_unitario:{
 		type: DataTypes.FLOAT,
-		allowNull: true
-	},
+		allowNull: true,
+	}
+},{
+	tableName: 'Servico'
 });
 
+Servico.belongsToMany(Nota);
+Servico.sync({force:true});
+
+  
 
 module.exports = Servico;

@@ -12,110 +12,160 @@
 </head>
 
 <body>
-    <div class="container mt-5">
+	<div class="container mt-5">
         <h1><%- title %></h1>
+
         <form action="" method="post">
-			<!-- Select de clientes -->
+
+            <div class="form-group">
+              <label for="inputEmpresa">Empresa:</label>
+              <select class="form-control" name="inputEmpresa" id="inputEmpresa">
+                <% for( let i = 0; i < empresa.length; i++ ) { %>
+                    <option value="<%= empresa[i].id %>"><%= empresa[i].razao_social %></option>
+                <% } %>
+              </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputNumeroNota">Número da Nota:</label>
+                <input type="text" class="form-control" id="inputNumeroNota" name="inputNumeroNota" placeholder="*indisponível*" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="inputCodigoVerificacao">Código de Verificação:</label>
+                <input type="text" class="form-control" id="inputCodigoVerificacao" name="inputCodigoVerificacao" placeholder="*indisponível*" readonly>
+            </div>
+
             <div class="form-group">
                 <label for="inputClienteId">Cliente:</label>
                 <select class="form-control" id="inputClienteId" name="inputClienteId" required>
-					<option value="" disabled selected style="font-style: italic;"> Selecione um cliente </option>
-					<% for (let i = 0; i < clientes.length; i++) { %>
-						<option value="<%= clientes[i].id %>"> <%= clientes[i].Pessoa.nome%> </option>
-					<% } %>
+                    <option value="" disabled selected style="font-style: italic;"> Selecione um cliente </option>
+                    <% for (let i = 0; i < clientes.length; i++) { %>
+                        <option value="<%= clientes[i].id %>"> <%= clientes[i].razao_social%> </option>
+                    <% } %>
                 </select>
             </div>
-			<!-- Select de servicos -->
+			
             <div class="form-group">
-                <label for="inputServicoId">Tipo de Serviço:</label>
+				<label for="inputServicoId">Tipo de Serviço:</label>
                 <select class="form-control" id="inputServicoId" name="inputServicoId" required>
 					<option value="" disabled selected style="font-style: italic;">Selecione um serviço</option>
                     <% for (let i = 0; i < servicos.length; i++) { %>
-						<option value="<%= servicos[i].id %>"> <%= servicos[i].descricao%> </option>
-					<% } %>
+                        <option value="<%= servicos[i].id %>"> <%= servicos[i].descricao%> </option>
+                    <% } %>
                 </select>
             </div>
-			<!-- Campo com o valor unitario do servico -->
+
             <div class="form-group">
-                <label for="inputValorUnitario">Valor Unitário:</label>
+				<label for="inputValorUnitario">Valor Unitário:</label>
                 <input type="text" class="form-control" id="inputValorUnitario" readonly>
             </div>
-			<!-- Campo para entrar com a quantidade do servico selecionado -->
+
             <div class="form-group">
-                <label for="inputQuantidade">Quantidade:</label>
+				<label for="inputQuantidade">Quantidade:</label>
                 <input type="number" class="form-control" id="inputQuantidade" name="inputQuantidade" required>
             </div>
-			<!-- Campo com o calculo do valor total (valor unitario * quantidade)-->
+
+			
             <div class="form-group">
-                <label for="inputValorTotal">Valor Total:</label>
-                <input type="text" class="form-control" id="inputValorTotal" readonly>
-            </div>
-			<!-- Campo para entar com o prazo de entrega em dias -->
-            <div class="form-group">
-                <label for="inputPrazo">Prazo de Entrega (dias):</label>
+				<label for="inputPrazo">Prazo de Entrega (dias):</label>
                 <input type="number" class="form-control" id="inputPrazo" name="inputPrazo" required>
             </div>
-			<!-- Campo que calcula o data de entrega do servico -->
+			
             <div class="form-group">
                 <label for="inputEntrega">Data de Entrega:</label>
                 <input type="text" class="form-control" id="inputEntrega" name="inputEntrega" readonly>
             </div>
+			
+			<div class="form-group">
+				<label for="inputSubtotal">Subtotal:</label>
+				<input type="text" class="form-control" id="inputSubtotal" name="inputSubtotal" readonly>
+			</div>
+
+			<div class="form-group">
+				<label for="inputInss">INSS:</label>
+				<input type="number" class="form-control" id="inputInss" name="inputInss" placeholder="*indisponível*" readonly>
+			</div>
+			
+			<div class="form-group">
+				<label for="inputAliquota">Aliquota:</label>
+				<input type="number" class="form-control" id="inputAliquota" name="inputAliquota" placeholder="*indisponível*" readonly>
+			</div>
+			
+			<div class="form-group">
+				<label for="inputValorTotal">Valor Total:</label>
+				<input type="text" class="form-control" id="inputValorTotal" placeholder="*indisponível*" readonly>
+			</div>
+
+			<div class="form-group">
+				<label for="inputObservacao">Observações:</label>
+				<textarea class="form-control" id="inputObservacao" name="inputObservacao"></textarea>
+			</div>
+
             <a class="btn btn-primary" href="/notas">Voltar</a>
             <button type="submit" class="btn btn-primary">Salvar</button>
         </form>
     </div>
 
 	<script>
+    document.getElementById('inputClienteId').addEventListener('change', function() {
+        // Remove a opção padrão quando outra opção é selecionada
+        const defaultOption = document.querySelector('#inputClienteId option[value=""]');
+        if (defaultOption) {
+            defaultOption.remove();
+        }
+    });
 
-		document.getElementById('inputClienteId').addEventListener('change', function() {
-			// Remove a opção padrão quando outra opção é selecionada
-			const defaultOption = document.querySelector('#inputClienteId option[value=""]');
-			if (defaultOption) {
-				defaultOption.remove();
-			}
-		});
-		document.getElementById('inputServicoId').addEventListener('change', function() {
-			// Remove a opção padrão quando outra opção é selecionada
-			const defaultOption = document.querySelector('#inputServicoId option[value=""]');
-			if (defaultOption) {
-				defaultOption.remove();
-			}
-		});
+    document.getElementById('inputServicoId').addEventListener('change', function() {
+        // Remove a opção padrão quando outra opção é selecionada
+        const defaultOption = document.querySelector('#inputServicoId option[value=""]');
+        if (defaultOption) {
+            defaultOption.remove();
+        }
+    });
 
+    var servicos = <%- JSON.stringify(servicos) %>;
 
-		var servicos = <%- JSON.stringify(servicos) %>;
-		// Campo para pegar a o valor unitário do produto selecionado
-		document.getElementById('inputServicoId').addEventListener('change', function() {
-			var selectedServiceId = this.value;
-			var selectedService = servicos.find(servico => servico.id === parseInt(selectedServiceId));
-	
-			if (selectedService) {
-				document.getElementById('inputValorUnitario').value = selectedService.valor_unitario;
-			}
-		});
+    // Campo para pegar o valor unitário do produto selecionado
+    document.getElementById('inputServicoId').addEventListener('change', function() {
+        var selectedServiceId = this.value;
+        var selectedService = servicos.find(servico => servico.id === parseInt(selectedServiceId));
 
+        if (selectedService) {
+            document.getElementById('inputValorUnitario').value = selectedService.valor_unitario;
+        }
+    });
 
-		// Campo para entrar com a quantidade do serviço selecionado
-		const inputQuantidade = document.getElementById('inputQuantidade');
-		inputQuantidade.addEventListener('input', function() {
-			const quantidade = parseFloat(this.value);
-			const valorUnitario = parseFloat(document.getElementById('inputValorUnitario').value);
-			const valorTotal = quantidade * valorUnitario;
-			document.getElementById('inputValorTotal').value = valorTotal.toFixed(2);
-		});
+    // Campo para entrar com a quantidade do serviço selecionado
+    const inputQuantidade = document.getElementById('inputQuantidade');
+    inputQuantidade.addEventListener('input', function() {
+        calcularSubtotal();
+    });
 
+    // Campo para entrar com o prazo de entrega em dias
+    const inputPrazo = document.getElementById('inputPrazo');
+    inputPrazo.addEventListener('input', function() {
+        calcularDataEntrega();
+    });
 
-		// Campo para entrar com o prazo de entrega em dias
-		const inputPrazo = document.getElementById('inputPrazo');
-		inputPrazo.addEventListener('input', function() {
-			const prazoEntrega = parseInt(this.value);
-			const dataAtual = new Date();
-			dataAtual.setDate(dataAtual.getDate() + prazoEntrega);
-			const ano = dataAtual.getFullYear();
-			const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
-			const dia = String(dataAtual.getDate()).padStart(2, '0');
-			const dataEntrega = `${dia}/${mes}/${ano}`;
-			document.getElementById('inputEntrega').value = dataEntrega;
-		});
+    // Função para calcular o valor total
+    function calcularSubtotal() {
+        const quantidade = parseFloat(inputQuantidade.value);
+        const valorUnitario = parseFloat(document.getElementById('inputValorUnitario').value);
+        const subtotal = quantidade * valorUnitario;
+        document.getElementById('inputSubtotal').value = subtotal.toFixed(2);
+    }
+
+    // Função para calcular a data de entrega
+    function calcularDataEntrega() {
+        const prazoEntrega = parseInt(inputPrazo.value);
+        const dataAtual = new Date();
+        dataAtual.setDate(dataAtual.getDate() + prazoEntrega);
+        const ano = dataAtual.getFullYear();
+        const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+        const dia = String(dataAtual.getDate()).padStart(2, '0');
+        const dataEntrega = `${dia}/${mes}/${ano}`;
+        document.getElementById('inputEntrega').value = dataEntrega;
+    }
 	</script>
 </html>

@@ -11,6 +11,7 @@ const connection = new Sequelize(
     dialect: process.env.DB_TYPE
 });
 
+
 async function recriarBancoDeDados(){
 	// Recriar o modelo e o banco de dados (forçar a recriação)
 	await connection.sync({ force: true });
@@ -21,7 +22,6 @@ async function conectarAoBancoDeDados() {
   try {
 	if(process.env.DB_FORCE == 'true') recriarBancoDeDados();
     await connection.authenticate();
-	await connection.sync();
     console.log('Conexão com o banco de dados estabelecida com sucesso.');
   } catch (error) {
     console.error('Erro ao conectar-se ao banco de dados:', error);
@@ -30,6 +30,7 @@ async function conectarAoBancoDeDados() {
 
 // Invocar a função para conectar ao banco de dados
 conectarAoBancoDeDados();
+
 
 // Exportar a conexão para uso em outros lugares
 module.exports = connection;

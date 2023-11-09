@@ -2,15 +2,12 @@
 const express = require('express');
 const router = express.Router();
 
+const Cliente = require('../models/Cliente');
+const Empresa = require('../models/Empresa.js');
 
-const Pessoa = require('../models/Pessoa.js');
-
-const Usuario = require('../models/Usuario.js');
-const Cliente = require('../models/Cliente.js');
-
-const NotaDeServico = require('../models/NotaDeServico.js');
-const ItemDaNota = require('../models/ItemDaNota.js');
 const Servico = require('../models/Servico.js');
+const Nota = require('../models/Nota.js');
+const ItensDaNota = require('../models/ItensDaNota.js');
 
 
 
@@ -18,15 +15,15 @@ const Servico = require('../models/Servico.js');
 router
 .get("/", async (req,res)=>{
 	try {
-		const notas = await ItemDaNota.findAll({
-			include:[NotaDeServico, Servico],
-		});
-
-		res.render("notas/index", { title: 'CONTROLE DE NOTAS', notas });	 
-
+		const nota = await Nota.findAll({include:[
+			Empresa,
+			Cliente, 
+			Servico,
+		]});
+		res.render('notas/index',{title:'Controle de Notas de Servico:',nota});
 	} catch (error) {
-		console.log(error);
-		res.render('error',{msg:'Recurso indisponível!', router:'/'})
+		console.log(error)
+		res.render('error',{msg:'Erro ao buscar notas. ' + error + '.'})
 	}
 })
 
@@ -34,126 +31,88 @@ router
 // CREATE
 router
  .get('/create', async (req,res)=>{
-	 try {
-		const clientes = await Cliente.findAll({include:[Pessoa]});
-		const servicos = await Servico.findAll();
-		res.render('notas/form',{title:'Entrada de Nota', clientes, servicos});
+	const msg = req.params.msg;
+	let empresa, clientes, servicos;
+	try {
+		try {
+			empresa = await Empresa.findAll();
+		} catch (error) {
+			res.render('error',{msg:'Não foi possível carregar as informações da empresa.'});
+		}
+		try {
+			clientes = await Cliente.findAll();
+		} catch (error) {
+			res.render('error',{msg:'Não foi possível carregar as informações dos clientes.'});
+		}
+		try {
+			servicos = await Servico.findAll();
+		} catch (error) {
+			res.render('error',{msg:'Não foi possível carregar os sevricos.'});
+		}
+		res.render('notas/form',{title:'Entrada de Notas:',empresa,clientes,servicos,msg});
 	} catch (error) {
-		res.render('error',{msg:error});
+		res.render('error',{msg:'Não foi possível carregar o formulário.'});
 	}
  })
  .post('/create', async (req,res)=>{
-	const {inputClienteId, inputServicoId, inputQuantidade, inputPrazo} = req.body;
+	const {
+		inputEmpresaId,
+		inputClienteId,
+		inputServicoId,
+		inputQuantidade,
+		inputValorTotal,
+		inputPrazo,
+		inputEntrega,
+		inputObservacao,
+	} = req.body;
 	try {
-		const novaNota = await NotaDeServico.create({
+		const nota = await Nota.create({
+			EmpresaId: inputEmpresaId,
 			ClienteId: inputClienteId,
+			valor_total: inputValorTotal,
+			observacao: inputObservacao,
+			/*
 			prazo: inputPrazo,
+			entrega: inputEntrega,
+			*/
 		});
-
-		const novoItem = await ItemDaNota.create({
-			quantidade: inputQuantidade,
-			NotaDeServicoId: novaNota.id,
+		const item = await ItensDaNota.create({
+			NotaId: nota.id,
 			ServicoId: inputServicoId,
-		});
-		
-		console.log('Entrada de nota! ', novaNota, novoItem);
-		res.redirect('/notas');
-
+			quantidade: inputQuantidade,
+		})
+		res.redirect('/notas')
 	} catch (error) {
-		console.log(error);
-		res.render('error',{msg:'Erro ao cadastrar nota.', router:'/notas'});
-	} 
-	
+		res.render('error',{msg:'Não foi possível dar entrada na nota. ' + error + '.'});
+	}
  });
 
 
 // READ
 router.get('/read/:id', async (req,res)=>{
-	const codigo = req.params.id;
-	try {
-		const nota = await ItemDaNota.findAll({
-			include: [NotaDeServico, Servico],
-			where: { NotaDeServicoId: codigo },
-		});
-
-		const cliente = await Cliente.findOne({
-			include:[Pessoa],
-			where:{id: nota[0].NotaDeServico.ClienteId},
-		})
-
-		res.render('notas/profile', {title:'Detalhes da nota (${nota.id})', nota, cliente});
-	} catch (error) {
-		res.render('error',{msg:error});
-	}
+	
 });
 
 
 // UPDATE
 router
  .get('/update/:id', async (req,res)=>{
-	const codigo = req.params.id;
 	try {
-		const nota = await ItemDaNota.findOne({
-			include:[NotaDeServico, Servico],
-			where:{NotaDeServicoId:codigo}
-		});
-
-		const clientes = await Cliente.findAll({include:[Pessoa],where:{id:nota.NotaDeServico.ClienteId}});
-
-		const servicos = await Servico.findAll(/*{where:{id:nota.ServicoId}}*/);
-
-		res.render('notas/form',{title:'Formulario de Atualização - Cod.(' + nota.id + ')', nota, clientes, servicos});
+		const notas = await Nota.findAll({include:[Cliente,Empresa]});
+		const item = await ItensDaNota.findAll({include:[Nota,Servico]});
+		res.render('notas/form',{title:'Entrada de Notas:', notas, item});
 	} catch (error) {
-		res.render('error',{msg:error});
+		res.render('error',{msg:'Não foi possível carregar o formulário.'});
 	}
  })
  .post('/update/:id', async (req,res)=>{
-	const codigo = req.params.id;
-	const {inputClienteId, inputServicoId, inputQuantidade, inputPrazo} = req.body;
-	try {
-		const nota = await NotaDeServico.update({
-			ClienteId: inputClienteId,
-			prazo: inputPrazo,
-		},{
-			where: { id: codigo }
-		});
-
-		const item = await ItemDaNota.update({
-			NotaDeServicoId: codigo,
-			ServicoId: inputServicoId,
-			quantidade: inputQuantidade,
-		},{
-			where:{NotaDeServicoId: codigo}
-		});
-
-		console.log('Atualização de nota: ', nota, item);
-		res.redirect('/notas');
-
-	} catch (error) {
-		res.render('error',{msg:error});
-	}
+	
  });
 
 
 // DELETE
 router.get('/delete/:id', async (req,res)=>{
-	const codigo = req.params.id;
-	try {
-		const nota = await NotaDeServico.destroy({
-			where: { id: codigo}
-		});
-
-		const item = await ItemDaNota.destroy({
-			where:{NotaDeServicoId:codigo}
-		});
-
-		console.log('Nota deletada! ', nota, item);
-		res.redirect('/notas');
-
-	} catch (error) {
-		console.log(error)
-		res.render('error',{msg:'Esso ao deletar nota', router:''});
-	}
+	
 });
 
 

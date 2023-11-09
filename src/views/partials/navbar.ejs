@@ -1,20 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/navbar.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a class="logo">PROJETO LAVOISIER</a>
+      <ul class="nav-list">
+        <li><a href="/clientes">Clientes</a></li>
+        <li><a href="/notas">Notas</a></li>
+        <li><a href="/servicos">Serviços</a></li>
+        <li class="nav-dropdown">
+          <a href="/usuarios" class="nav-dropdown-toggle">Usuários</a>
+          <div class="nav-dropdown-content">
+            <a href="">Adicionar</a>
+            <a href="">Meu Perfil</a>
+            <a href="/logout">Deslogar</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-<header class="bg-dark" style="
-  margin-top: 2%;
-  margin-bottom: 2%;
-  height: 60px;
-  display: flex; /* Tornando o header um container flexível */
-  align-items: center; /* Centralizando verticalmente */
-">
-  <div class="container">
-    <ul class="nav nav-pills nav-fill">
-		<li class="nav-item"><a class="nav-link active bg-dark" href="/home"> MENU </a></li>
-		<li class="nav-item" style="margin-right: 0%; margin-left: 1%;"><a class="nav-link active" href="/clientes"> CLIENTE </a></li>
-		<li class="nav-item" style="margin-right: 0%; margin-left: 1%;"><a class="nav-link active" href="/notas"> NOTAS </a></li>
-		<li class="nav-item" style="margin-right: 0%; margin-left: 1%;"><a class="nav-link active" href="/servicos"> SERVIÇOS </a></li>
-		<!-- <li class="nav-item" style="margin-right: 0%; margin-left: 1%;"><a class="nav-link active" href="/funcionarios"> FUNCIONÁRIOS </a></li> -->
-		<li class="nav-item" style="margin-right: 0%; margin-left: 1%;"><a class="nav-link active" href="/usuarios"> USUÁRIOS </a></li>
-	  </ul>
-    </ul>
-  </div>
-</header>
+  <!-- Restante do conteúdo da sua aplicação -->
+</body>
+</html>

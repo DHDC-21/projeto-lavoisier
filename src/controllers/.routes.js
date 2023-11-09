@@ -13,18 +13,14 @@ const { and, Sequelize } = require('sequelize');
 
 
 // MENU PRINCIPAL
-router
- .get('/', checkAuthCookie, (req,res)=>{
-	res.render('index',{title:'Menu Inicial'});
- })
- .get("/home", checkAuthCookie, (req,res)=>{
-	res.redirect('/');
- })
+router.get('/', checkAuthCookie, (req,res)=>{res.render('index',{title:'Menu Inicial'});});
+router.get("/home", checkAuthCookie, (req,res)=>{res.redirect('/');});
 
 
 // ROTA DE ERRO
+router
  .get('/erro', (req,res)=>{
-	res.render('error', {msg:'Uma mensagem de erro ocorreu. Insira a mensagem de erro aqui. Isso é um teste de erro, aperte VOLTAR para home.', router:'/home'});
+	res.render('error', {msg:'Uma mensagem de erro ocorreu. Insira a mensagem de erro aqui. Isso é um teste de erro, aperte VOLTAR para home.'});
  })
 
 

@@ -1,36 +1,32 @@
 
-const { DataTypes, Sequelize } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const database = require('../config/_connectionDB.js');
 
-// const Funcionario = require('./Funcionario.js');
 
-const Usuario = database.define('Usuario', {
-	email: {
+const Usuario = database.define('Usuario',{
+	nome:{
 		type: DataTypes.STRING,
 		allowNull: true,
-		validate: {
-			isEmail: true,
-		},
 	},
-	username: {
-		type: DataTypes.STRING(50),
-		allowNull: false,
-		validate: {
-			len: [5, 50],
-		},
-	},
-	password: {
+	email:{
 		type: DataTypes.STRING,
-		allowNull: false,
+		allowNull: true,
 	},
-	isAdmin: {
+	username:{
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
+	password:{
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
+	isAdmin:{
 		type: DataTypes.BOOLEAN,
 		defaultValue: false,
-	},
+	}
+},{
+	tableName: 'Usuario'
 });
-
-// Apesar da relacao 1:1 nao e possivel ambos os bancos terem chaves estrangeiras um do outro entao apenas Funcionario tera essa associacao
-// Usuario.belongsTo(Funcionario, { unique: true });
 
 
 module.exports = Usuario;

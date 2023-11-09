@@ -15,7 +15,6 @@ const defaultRoutes = require("./controllers/.routes.js");
 const clientRoutes = require("./controllers/client.routes.js");
 const noteRoutes = require("./controllers/note.routes.js");
 const serviceRoutes = require("./controllers/service.routes.js");
-const employeeRoutes = require("./controllers/employee.routes.js");
 const userRoutes = require("./controllers/users.routes.js");
 const { gerarUserRoot } = require("./config/setup.js");
 
@@ -58,7 +57,6 @@ app.use(checkAuthCookie);	// A partir dessa linha todas as rotas estão protegid
 app.use("/clientes", clientRoutes);
 app.use("/notas", noteRoutes);
 app.use("/servicos", serviceRoutes);
-app.use("/funcionarios", employeeRoutes);
 app.use("/usuarios", userRoutes);
 
 // Gerar usuário padrão após o banco de dados ser recriado.

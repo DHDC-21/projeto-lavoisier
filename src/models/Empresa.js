@@ -1,19 +1,15 @@
 
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const database = require('../config/_connectionDB.js');
 
 
-const Cliente = database.define('Cliente',{
+const Empresa = database.define('Empresa',{
 	razao_social:{
 		type: DataTypes.STRING,
 		allowNull: true,
 	},
-	cpf_cnpj:{
+	cnpj:{
 		type: DataTypes.CHAR(15),
-		allowNull: true,
-	},
-	insc_municipal:{
-		type: DataTypes.CHAR(20),
 		allowNull: true,
 	},
 	endereco:{
@@ -28,13 +24,9 @@ const Cliente = database.define('Cliente',{
 		type: DataTypes.CHAR(2),
 		allowNull: true,
 	},
-	email:{
-		type: DataTypes.STRING,
-		allowNull: true,
-	}
 },{
-	tableName: 'Cliente'
+	tableName: 'Empresa'
 });
 
 
-module.exports = Cliente;
+module.exports = Empresa;
