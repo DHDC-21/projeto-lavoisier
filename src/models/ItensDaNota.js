@@ -2,9 +2,8 @@
 const { DataTypes } = require('sequelize');
 const database = require('../config/_connectionDB.js');
 
-const Servico = require('./Servico.js');
-const Nota = require('./Nota.js');
-
+const Nota = require('./Nota');
+const Servico = require('./Servico');
 
 
 const ItensDaNota = database.define('ItensDaNota', {
@@ -22,8 +21,28 @@ const ItensDaNota = database.define('ItensDaNota', {
 });
 
 
-// Servico.belongsToMany(Nota, {through: 'ItensDaNota',});
-// Nota.belongsToMany(Servico, {through: 'ItensDaNota',});
+
+Nota.belongsToMany(Servico,{
+	through:{
+		model: ItensDaNota
+	},
+	foreignKey: 'NotaId',
+	constraints: true
+})
+
+Servico.belongsToMany(Nota,{
+	through:{
+		model: ItensDaNota
+	},
+	foreignKey: 'ServicoId',
+	constraints: true
+})  
+
+Nota.hasMany(ItensDaNota,{foreignKey:'NotaId'});
+ItensDaNota.belongsTo(Nota,{foreignKey:'NotaId'});
+Servico.hasMany(ItensDaNota,{foreignKey:'ServicoId'});
+ItensDaNota.belongsTo(Servico,{foreignKey:'ServicoId'});
+
 
 
 module.exports = ItensDaNota;

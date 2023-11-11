@@ -6,8 +6,6 @@ const Cliente = require('./Cliente.js');
 const Empresa = require('./Empresa.js');
 const Usuario = require('./Usuario.js');
 
-const Servico = require('./Servico.js');
-
 
 const Nota = database.define('Nota',{
 	num_nf:{
@@ -38,6 +36,14 @@ const Nota = database.define('Nota',{
 		type: DataTypes.STRING,
 		allowNull: true,
 	},
+	prazo:{
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	},
+	entrega:{
+		type: DataTypes.DATEONLY,
+		allowNull: true,
+	},
 },{
 	tableName: 'Nota'
 });
@@ -45,9 +51,6 @@ const Nota = database.define('Nota',{
 Nota.belongsTo(Cliente);
 Nota.belongsTo(Empresa);
 Nota.belongsTo(Usuario);
-
-Nota.belongsToMany(Servico);
-Nota.sync({force:true});
 
 
 module.exports = Nota;

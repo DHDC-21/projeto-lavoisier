@@ -20,9 +20,9 @@ async function recriarBancoDeDados(){
 
 async function conectarAoBancoDeDados() {
   try {
-	if(process.env.DB_FORCE == 'true') recriarBancoDeDados();
-    await connection.authenticate();
-    console.log('Conexão com o banco de dados estabelecida com sucesso.');
+	  await connection.authenticate();
+	  console.log('Conexão com o banco de dados estabelecida com sucesso.');
+	  if(process.env.DB_FORCE == 'true') recriarBancoDeDados();
   } catch (error) {
     console.error('Erro ao conectar-se ao banco de dados:', error);
   }

@@ -27,13 +27,13 @@
             </div>
 
             <div class="form-group">
-                <label for="inputNumeroNota">Número da Nota:</label>
-                <input type="text" class="form-control" id="inputNumeroNota" name="inputNumeroNota" placeholder="*indisponível*" readonly>
+                <label for="inputNotaId">Número da Nota:</label>
+                <input type="text" class="form-control" id="inputNotaId" name="inputNotaId" placeholder="*indisponível*" readonly>
             </div>
 
             <div class="form-group">
-                <label for="inputCodigoVerificacao">Código de Verificação:</label>
-                <input type="text" class="form-control" id="inputCodigoVerificacao" name="inputCodigoVerificacao" placeholder="*indisponível*" readonly>
+                <label for="inputCodigo">Código de Verificação:</label>
+                <input type="text" class="form-control" id="inputCodigo" name="inputCodigo" placeholder="*indisponível*" readonly>
             </div>
 
             <div class="form-group">
@@ -94,7 +94,7 @@
 			
 			<div class="form-group">
 				<label for="inputValorTotal">Valor Total:</label>
-				<input type="text" class="form-control" id="inputValorTotal" placeholder="*indisponível*" readonly>
+				<input type="text" class="form-control" id="inputValorTotal" name="inputValorTotal" placeholder="*indisponível*" readonly>
 			</div>
 
 			<div class="form-group">
@@ -148,7 +148,7 @@
         calcularDataEntrega();
     });
 
-    // Função para calcular o valor total
+    // Função para calcular o subtotal
     function calcularSubtotal() {
         const quantidade = parseFloat(inputQuantidade.value);
         const valorUnitario = parseFloat(document.getElementById('inputValorUnitario').value);
@@ -164,8 +164,17 @@
         const ano = dataAtual.getFullYear();
         const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
         const dia = String(dataAtual.getDate()).padStart(2, '0');
-        const dataEntrega = `${dia}/${mes}/${ano}`;
+        const dataEntrega = `${ano}-${mes}-${dia}`;
         document.getElementById('inputEntrega').value = dataEntrega;
     }
+
+	// Função para calcular o valor total
+	function calcularValorTotal(){
+		const subtotal = parseFloat(document.getElementById('inputSubtotal').value);
+		const inss = parseFloat(document.getElementById('inputInss').value);
+		const aliquota = parseFloat(document.getElementById('inputAliquota').value);
+		const valorTotal = subtotal+(subtotal*inss)+(subtotal*aliquota);
+		document.getElementById('inputValorTotal').value = valorTotal.toFixed(2);
+	}
 	</script>
 </html>

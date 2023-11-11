@@ -42,7 +42,6 @@
             <thead>
                 <tr>
 					<th>Cód.Nota</th>
-                    <th>Cód.Item</th>
                     <th>Cliente</th>
                     <th>Serviço</th>
 					<th>Valor Unitário</th>
@@ -54,27 +53,29 @@
             <tbody>
                 <!-- Lógica de programação para exibir lista de notas de serviço -->
 				<% for(let i = 0; i < nota.length; i++){ %>
-                    <tr>
-						<td><%= nota[i].id %></td>
-						<td><%= nota[i].ItensDaNota %></td>
-						<td><%= nota[i].Cliente.razao_social %></td>
-						<td><%= nota[i].Servico %></td>
-						<td><%= nota[i].Servico %></td>
-						<td><%= nota[i].quantidade %></td>
-						<td>
-							<% if (nota[i].Servico) { %>
-							  R$ <%= nota[i].Servico.valor_unitario * nota[i].ItensDaNota.quantidade %>
-							<% } else { %>
-							  <!-- Se o objeto Servico não estiver definido -->
-							  N/A
-							<% } %>
-						</td>
-                        <td>
-                            <button class="btn btn-info btn-sm" onclick="btnRead( <%= nota[i].id %> )">Ver</button>
-                            <button class="btn btn-warning btn-sm" onclick="btnUpdate( <%= nota[i].id %> )">Editar</button>
-							<button class="btn btn-danger btn-sm" onclick="btnDelete( <%= nota[i].id %>)">Excluir</button>
-                        </td>
-                    </tr>
+					<% for( let j = 0; j < nota[i].ItensDaNota.length; j++ ) { %>
+
+						<tr>
+							<td><%= nota[i].id %></td>
+							<td><%= nota[i].Cliente.razao_social %></td>
+							<td><%= nota[i].ItensDaNota[j].Servico.descricao %></td>
+							<td><%= nota[i].ItensDaNota[j].Servico.valor_unitario %></td>
+							<td><%= nota[i].ItensDaNota[j].quantidade %></td>
+							<td>
+								<% if (nota[i].ItensDaNota[j].Servico) { %>
+									R$ <%= nota[i].ItensDaNota[j].Servico.valor_unitario * nota[i].ItensDaNota[j].quantidade %>
+								<% } else { %>
+									N/A <!-- Se o objeto Servico não estiver definido -->
+								<% } %>
+							</td>
+							<td>
+								<button class="btn btn-info btn-sm" onclick="btnRead( <%= nota[i].id %> )">Ver</button>
+								<button class="btn btn-warning btn-sm" onclick="btnUpdate( <%= nota[i].id %> )">Editar</button>
+								<button class="btn btn-danger btn-sm" onclick="btnDelete( <%= nota[i].id %>)">Excluir</button>
+							</td>
+						</tr>
+
+					<% } %>
                 <% } %>
             </tbody>
         </table>

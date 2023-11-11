@@ -52,7 +52,7 @@ router
 		return res.render('login', { title: 'Login', msg: 'Usuário e/ou senha estão errados!' });
 	  }
   
-	  res.cookie('auth_token', jwt.sign({ id: usuario.id }, process.env.SECRET, { expiresIn: '1h' }));
+	  res.cookie('auth_token', jwt.sign({ id: usuario.id }, process.env.SECRET, { expiresIn: '24h' }));
   
 	  res.redirect('/'); // Redireciona para a rota raiz
 	} catch (error) {
