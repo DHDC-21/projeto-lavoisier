@@ -1,62 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE-edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title><%-title%></title>
-
-    <link rel="stylesheet" href="/bootstrap.min.css">
-    <script src="/bootstrap.bundle.min.js"></script>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title><%-title%></title>
+	<link rel="stylesheet" href="/bootstrap.min.css">
+	<script src="/bootstrap.bundle.mim.js"></script>
+	<link rel="stylesheet" href="/fullscreen.css">
 </head>
-
 <body>
+	<div class="container">
+		<table border="0" class="table">
+			<tr>
+				<td class="col-tag">Nome ou Razão Social:</td>
+				<td> <%= cliente.razao_social %> </td>
+			</tr>
+			<tr>
+				<td class="col-tag">CPF ou CNPJ:</td>
+				<td> <%= cliente.cpf_cnpj %> </td>
+			</tr>
+			<tr>
+				<td class="col-tag">Inscrição Municipal:</td>
+				<td> <%= cliente.insc_municipal %> </td>
+			</tr>
+			<tr>
+				<td class="col-tag">Endereço:</td>
+				<td> <%= cliente.endereco %></td>
+			</tr>
+			<tr>
+				<td class="col-tag">Municipio:</td>
+				<td> <%= cliente.municipio%></td>
+			</tr>
+			<tr>
+				<td class="col-tag">Estado:</td>
+				<td> <%= cliente.estado %></td>
+			</tr>
+			<tr>
+				<td class="col-tag">E-mail:</td>
+				<td> <%= cliente.email %> </td>
+			</tr>
+		</table>
+	</div>
 
 	<div class="container">
-		<%- title %>
-		<div class="row">
+		<h3>Itens da Nota:</h3>
+		<br>
+		<table class="table table-striped">
+			<thead class="table-dark">
+				<tr>
+					<td>Cod.Nota</td>
+					<td>Descrição</td>
+					<td>Unitário</td>
+					<td>Qt.</td>
+					<td>Subtotal</td>
+				</tr>
+			</thead>
+			<tbody>
+                <!-- Lógica de programação para exibir lista de notas de serviço -->
+				<% for(let i = 0; i < nota.length; i++){ %>
+					<% for( let j = 0; j < nota[i].ItensDaNota.length; j++ ) { %>
 
-			<div class="col-xs-1-12">
-				<div class="card">
-			  		<div class="card-body">
-						<h3 class="card-title">Descrição:</h3>
-						<p class="card-text">Text</p>
-			  		</div>
-				</div>
-		  	</div>
+						<tr>
+							<td># <%= nota[i].id %></td>
+							<td><%= nota[i].ItensDaNota[j].Servico.descricao %></td>
+							<td>R$ <%= nota[i].ItensDaNota[j].Servico.valor_unitario %></td>
+							<td>x <%= nota[i].ItensDaNota[j].quantidade %></td>
+							<td>
+								<% if (nota[i].ItensDaNota[j].Servico) { %>
+									R$ <%= nota[i].ItensDaNota[j].Servico.valor_unitario * nota[i].ItensDaNota[j].quantidade %>
+								<% } else { %>
+									N/A <!-- Se o objeto Servico não estiver definido -->
+								<% } %>
+							</td>
+						</tr>
 
-		 	<div class="col-xs-1-12">
-				<div class="card">
-					<div class="card-body">
-						<h3 class="card-title">Valor Unitario:</h3>
-						<p class="card-text">R$ 0,00</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-xs-1-12">
-				<div class="card">
-					<div class="card-body">
-						<h3 class="card-title">Quantidade:</h3>
-						<p class="card-text">x Number</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-xs-1-12">
-				<div class="card">
-					<div class="card-body">
-						<h3 class="card-title">Subtotal:</h3>
-						<p class="card-text">R$ 0,00</p>
-					</div>
-				</div>
-			</div>
-
-			
-		</div>
-
+					<% } %>
+                <% } %>
+            </tbody>
+			<tfoot  class="table-dark">
+				<tr>
+					<td class="col-tag" colspan="4" style="text-align: end;">Total:</td>
+					<td><%= nota.total %></td>
+				</tr>
+			</tfoot>
+		</table>
 	</div>
-    
+
+	<div class="container">
+		<a href="/clientes" class="btn btn-primary">VOLTAR</a>
+		<a href="/clientes/update/<%= cliente.id%>" class="btn btn-warning">ATUALIZAR</a>
+	</div>
 </body>
 </html>

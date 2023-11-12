@@ -9,26 +9,37 @@
 
     <link rel="stylesheet" href="/bootstrap.min.css">
     <script src="/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/fullscreen.css">
 </head>
 
 <body>
 	<div class="container mt-5">
         <h1><%- title %></h1>
-
+		<hr>
+		<br>
         <form action="" method="post">
 
+			
             <div class="form-group">
               <label for="inputEmpresa">Empresa:</label>
               <select class="form-control" name="inputEmpresa" id="inputEmpresa">
-                <% for( let i = 0; i < empresa.length; i++ ) { %>
-                    <option value="<%= empresa[i].id %>"><%= empresa[i].razao_social %></option>
-                <% } %>
-              </select>
+                <% for( let i = 0; i < empresas.length; i++ ) { %>
+                    <option value="<%= empresas[i].id %>"><%= empresas[i].razao_social %></option>
+					<% } %>
+				</select>
             </div>
 
             <div class="form-group">
                 <label for="inputNotaId">Número da Nota:</label>
-                <input type="text" class="form-control" id="inputNotaId" name="inputNotaId" placeholder="*indisponível*" readonly>
+                <select type="text" class="form-control" id="inputNotaId" name="inputNotaId" disabled>
+					<option value="0">*Indisponível*</option>
+					<% if (notas.length != 1) { %>
+						<option value="0">Nova Nota</option>
+					<% } %>
+					<% for( let i = 0; i < notas.length; i++ ) { %>
+						<option value="<%= notas[i].id %>">#<%= notas[i].id %> - <%= notas[i].Cliente.razao_social %></option>
+					<% } %>
+			  	</select>
             </div>
 
             <div class="form-group">
@@ -103,7 +114,7 @@
 			</div>
 
             <a class="btn btn-primary" href="/notas">Voltar</a>
-            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="submit" class="btn btn-success">Salvar</button>
         </form>
     </div>
 
@@ -173,8 +184,10 @@
 		const subtotal = parseFloat(document.getElementById('inputSubtotal').value);
 		const inss = parseFloat(document.getElementById('inputInss').value);
 		const aliquota = parseFloat(document.getElementById('inputAliquota').value);
-		const valorTotal = subtotal+(subtotal*inss)+(subtotal*aliquota);
+		const valorTotal = subtotal;
 		document.getElementById('inputValorTotal').value = valorTotal.toFixed(2);
 	}
+
 	</script>
+
 </html>

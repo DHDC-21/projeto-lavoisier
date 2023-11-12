@@ -27,8 +27,8 @@ Arquitetura do projeto (MVC-PC):
 		/clientes
 		/notas
 		/servicos
-		/funcionarios
 		/usuarios
+		/empresas
 	/controllers
 	/public
 		/images

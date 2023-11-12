@@ -62,21 +62,22 @@ router
 // READ
 router.get("/read/:id", async (req, res) => {
    const codigo = req.params.id;
+   let cliente, nota;
    try {
 		try {
-			const cliente = await Cliente.findOne({where:{id:codigo}});
+			cliente = await Cliente.findOne({where:{id:codigo}});
 		} catch (error) {
 			res.render('error',{msg:'Cliente nao encontrado!'});
 		}
 		try {
-			const notas = await Notas.findAll({
-				include:[ItensDaNota,Servico],
+			nota = await Nota.findAll({
+				include:[{model:ItensDaNota,include:[Servico]}],
 				where:{ClienteId:codigo}
 			});
 		} catch (error) {
 			res.render('error',{msg:'Notas do cliente nao encontradas!'});
 		}
-		res.render('clientes/profile',{title:cliente.nome,cliente,notas});
+		res.render('clientes/profile',{title:cliente.razao_social,cliente,nota});
 	} catch (error) {
 		res.render('error',{msg:'Recurso indisponível!'});
 	}

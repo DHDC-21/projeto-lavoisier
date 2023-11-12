@@ -1,0 +1,20 @@
+body {
+	background-color: #87CEEB;
+}
+.container {
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin-top: 20px;
+}
+h2, h3 {
+	color: #007bff;
+}
+.btn {
+	margin-right: 10px;
+}
+.col-tag {
+	text-align: start;
+	font-weight: bold;
+}

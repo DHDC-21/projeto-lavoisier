@@ -10,7 +10,7 @@ const Usuario = require('../models/Usuario.js');
 router
 .get("/", async (req,res)=>{
 	try {
-		const usuarios = await Usuario.findAll();
+		const usuarios = await Usuario.findAll({attributes: { exclude: ['password'] },});
 		res.render("usuarios/index", {title:'CONTROLE DE USUARIOS', usuarios})
 	} catch (error) {
 		console.log(error)
@@ -66,6 +66,19 @@ router
 // READ
 // UPDATE
 // DELETE
+router
+ .post('/delete/:id', async(req,res)=>{
+	const codigo = req.params.id;
+	try {
+		const usuario = await Usuario.destroy({where:{id:codigo}});
+		
+		console.log('Usuario removido! \n',{usuario});
+		res.redirect('/usuarios');
+	} catch (error) {
+		res.render('error',{msg:'Erro ao deletar usuario. \n' + error + '.'});
+	}
+ })
+
 
 
 module.exports = router;

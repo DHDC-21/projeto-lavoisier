@@ -4,10 +4,6 @@ const database = require('../config/_connectionDB.js');
 
 
 const Usuario = database.define('Usuario',{
-	nome:{
-		type: DataTypes.STRING,
-		allowNull: true,
-	},
 	email:{
 		type: DataTypes.STRING,
 		allowNull: true,

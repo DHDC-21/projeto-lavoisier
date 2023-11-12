@@ -42,9 +42,9 @@
 			<thead>
 				<tr>
 					<th>Código</th>
-					<th>Usuário</th>
+					<th>E-mail</th>
+					<th>Username</th>
 					<th>É Administrador?</th>
-					<th>Funcionário ID</th>
 					<th>Ações</th>
 				</tr>
 			</thead>
@@ -53,9 +53,9 @@
 				<% for(let i = 0; i < usuarios.length; i++){ %>
 					<tr>
 						<td><%= usuarios[i].id %></td>
+						<td><%= usuarios[i].email %></td>
 						<td><%= usuarios[i].username %></td>
 						<td><%= usuarios[i].isAdmin %></td>
-						<td><%= usuarios[i].FuncionarioID %></td>
 						<td>
 							<button class="btn btn-warning btn-sm" type="button" onclick="btnUpdate( <%= usuarios[i].id %> )">Editar</button>
 							<button class="btn btn-danger btn-sm" type="button" onclick="btnDelete( <%= usuarios[i].id %> )">Excluir</button>
