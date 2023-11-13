@@ -7,16 +7,16 @@ const Servico = require('../models/Servico.js');
 router
 .get("/", async (req,res)=>{
 	const servicos = await Servico.findAll();
-	res.render("servicos/index",{title:'CONTROLE DE SERVICOS', servicos})
+	res.render("servicos/index",{title:'Controle de Serviços:', servicos})
 })
 
 // CREATE
 router
-.get('/create', (req,res)=>{
+ .get('/create', (req,res)=>{
 	const servico = {};
 	res.render('servicos/form',{title:'Formulario de Cadastro', servico})
-})
-.post('/create', async (req,res)=>{
+ })
+ .post('/create', async (req,res)=>{
 	const {inputDescricao, inputValorUnitario} = req.body;
 	
 	try {
@@ -25,12 +25,11 @@ router
 			valor_unitario: inputValorUnitario
 		})
 		
-		// console.log(servico);
+		console.log(servico);
 		res.redirect('/servicos');
 
 	} catch (error) {
-		res.send('Aconteceu um erro inesperado!')
-		console.log(error)
+		res.render('error',{msg:'Não foi possível cadastrar o serviço.'})
 	}
 })
 
@@ -42,9 +41,11 @@ router
 router
  .get('/update/:id', async (req,res)=>{
 	const codigo = req.params.id;
-	const servico = await Servico.findOne({ where: { id: codigo } });
-	if(servico){
+	try {
+		const servico = await Servico.findOne({ where: { id: codigo } });
 		res.render('servicos/form',{title:'Formulario de Atualizacao', servico});
+	} catch (error) {
+		res.render('error',{msg:'Serviço não econtrado.'})
 	}
  })
  .post('/update/:id', async (req, res)=>{
@@ -52,7 +53,7 @@ router
 	const {inputDescricao, inputValorUnitario} = req.body;
 
 	try {
-		await Servico.update(
+		const servico = await Servico.update(
 			{
 				descricao: inputDescricao,
 				valor_unitario: inputValorUnitario
@@ -62,13 +63,23 @@ router
 				}
 			}
 		)
+		console.log(servico);
 		res.redirect('/servicos');	
 	} catch{
-		// tratamento de erro
+		res.render('error',{msg:'Erro ao atualizar servico.'});
 	}
  })
 
 // DELETE
-
+router.get('/delete/:id', async (req,res)=>{
+	const codigo = req.params.id;
+	try {
+		const servico = await Servico.destroy({where:{id:codigo}});
+		console.log(servico);
+		res.redirect('/servicos')
+	} catch (error) {
+		res.render('error',{msg:'Erro ao deletar servico.'});
+	}
+})
 
 module.exports = router;

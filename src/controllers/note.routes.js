@@ -82,33 +82,20 @@ router
 	} = req.body;
   
 	try {
-		const nota = {};
+		
+		console.log('Criando Nota... \n');
+		const nota = await Nota.create({
+			EmpresaId: inputEmpresaId,
+			ClienteId: inputClienteId,
+	
+			// valor_total: inputValorTotal,
+			observacao: inputObservacao,
+			
+			prazo: inputPrazo,
+			entrega: inputEntrega,
+		});
+		
 
-		if(inputNotaId == 0){
-			console.log('Criando Nota... \n');
-			nota = await Nota.create({
-			  EmpresaId: inputEmpresaId,
-			  ClienteId: inputClienteId,
-	  
-			  // valor_total: inputValorTotal,
-			  observacao: inputObservacao,
-			  
-			  prazo: inputPrazo,
-			  entrega: inputEntrega,
-			});
-		} else {
-			console.log('Adicionando item a nota... \n')
-			nota = await Nota.update({
-				EmpresaId: inputEmpresaId,
-
-				observacao: inputObservacao,
-			  
-				prazo: inputPrazo,
-			  	entrega: inputEntrega,
-			},{
-				where:{id:inputNotaId}
-			});
-		}
 	  console.log(nota);
   
 	  console.log('Criando Item da Nota...');

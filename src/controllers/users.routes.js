@@ -25,7 +25,7 @@ router
 })
 .post('/create', async (req,res)=>{
 
-	const { inputUsername, inputPassword, confirmPassword, inputIsAdmin } = req.body;
+	const { inputEmail, inputUsername, inputPassword, confirmPassword, inputIsAdmin } = req.body;
 		
 	// Conformando digitação de senhas
 	if(inputPassword != confirmPassword){
@@ -54,20 +54,21 @@ router
 
 	// Criando o novo usuario
 	const newUser = Usuario.create({
-		username: inputUsername,
-		password: passwordHash,
-		isAdmin: isAdmin
+		email:		inputEmail,
+		username:	inputUsername,
+		password:	passwordHash,
+		isAdmin:	isAdmin,
 	})
 
-	res.redirect('/usuarios');
 	console.log({newUser});
+	res.redirect('/usuarios');
 })
 
 // READ
 // UPDATE
 // DELETE
 router
- .post('/delete/:id', async(req,res)=>{
+ .get('/delete/:id', async(req,res)=>{
 	const codigo = req.params.id;
 	try {
 		const usuario = await Usuario.destroy({where:{id:codigo}});

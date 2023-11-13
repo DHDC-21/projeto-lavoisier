@@ -1,6 +1,10 @@
 
 const Cliente = require('../models/Cliente.js');
 const Servico = require('../models/Servico.js');
+const Empresa = require('../models/Empresa.js');
+const Nota = require('../models/Nota.js');
+const ItensDaNota = require('../models/ItensDaNota.js');
+
 
 async function gerarClientes(){
 	console.log('Criando clientes...');
@@ -55,7 +59,27 @@ async function gerarServicos(){
 	})
 }
 
+
+async function gerarEmpresa(){
+	Empresa.afterSync(async()=>{
+		await Empresa.create({
+			razao_social:	'Laboratório Crislu',
+			cnpj:			'01234567891011',
+			endereco:		'Rua Fatec Arthur de Azevedo',
+			municipio:		'Mogi Mirim',
+			estado:			'SP',
+		})
+	})
+}
+
+async function gerarNota(){
+
+}
+
+
 module.exports = {
 	gerarClientes,
 	gerarServicos,
+	gerarEmpresa,
+	gerarNota,
 };
