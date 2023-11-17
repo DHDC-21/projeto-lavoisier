@@ -2,6 +2,12 @@
 const express = require('express');
 const router = express.Router();
 
+const puppeteer = require('puppeteer');
+const path = require('path');
+const ejs = require('ejs');
+
+const routeName = '/extratos';
+
 const Cliente = require('../models/Cliente');
 const Empresa = require('../models/Empresa.js');
 
@@ -9,6 +15,7 @@ const Servico = require('../models/Servico.js');
 const Nota = require('../models/Nota.js');
 const ItensDaNota = require('../models/ItensDaNota.js');
 
+require('dotenv');
 
 
 // INDEX
@@ -25,10 +32,10 @@ router
 			],
 		})
 		  
-		res.render('notas/index',{title:'Controle de Notas de Servico:',nota});
+		res.render('notas/index',{title:'Controle de Extratos de Serviço:',nota});
 	} catch (error) {
 		console.log(error)
-		res.render('error',{msg:'Erro ao buscar notas. ' + error + '.'})
+		res.render('error',{msg:'Erro ao buscar extratos. '/* + error + '.'*/})
 	}
 })
 
@@ -41,7 +48,7 @@ router
 		try {
 			notas = await Nota.findAll({include:[Cliente]});
 		} catch (error) {
-			res.render('error',{msg:'Não foi possível carregar as notas.'});
+			res.render('error',{msg:'Não foi possível carregar os estratos.'});
 		}
 		try {
 			empresas = await Empresa.findAll();
@@ -58,7 +65,7 @@ router
 		} catch (error) {
 			res.render('error',{msg:'Não foi possível carregar os sevricos.'});
 		}
-		res.render('notas/form',{title:'Entrada de Notas:',empresas,clientes,servicos,notas});
+		res.render('notas/form',{title:'Cadastro de Extratos:',empresas,clientes,servicos,notas});
 	} catch (error) {
 		res.render('error',{msg:'Não foi possível carregar o formulário.'});
 	}
@@ -109,10 +116,10 @@ router
   
 	  console.log(inputNotaId);
 	  console.log('Redirecionando após inserção bem-sucedida...');
-	  res.redirect('/notas');
+	  res.redirect(routeName);
 	} catch (error) {
 	  console.error('Erro durante a criação da nota:', error);
-	  res.render('error', { msg: 'Não foi possível dar entrada na nota. ' + error + '.' });
+	  res.render('error', { msg: 'Não foi possível dar entrada na nota. ' /* + error + '.' */});
 	}
   });
   
@@ -128,12 +135,14 @@ router.get('/read/:id', async (req,res)=>{
 					include:[{model:Servico,},],
 					where:{NotaId:codigo}
 				},
-				{model: Cliente,},
+				{model:Empresa},
+				{model:Cliente},
 			],
 			},{
 				where:{id:codigo}
 		})
-		res.render('notas/profile',{title:'Comprovante(' + nota.id + ')',nota})
+		console.log(nota[0].Empresa.razao_social)
+		res.render('notas/profile',{title:'Comprovante(' + nota[0].id + ')',nota})
 	} catch (error) {
 		console.log('Erro e exibição. \n' + error + '.')	
 	}
@@ -147,7 +156,7 @@ router.get('/read', async (req,res)=>{
 		Empresa:{},
 	}
 	try {
-		res.render('notas/profile',{title:'Comprovante(' + nota.id + ')',nota})
+		res.render('notas/profile',{title:'Comprovante(0)',nota})
 	} catch (error) {
 		console.log('Erro e exibição. \n' + error + '.')	
 	}
@@ -163,7 +172,7 @@ router
 		try {
 			notas = await Nota.findAll({include:[Cliente],where:{id:codigo}});
 		} catch (error) {
-			res.render('error',{msg:'Não foi possível carregar a nota.'});
+			res.render('error',{msg:'Não foi possível carregar o extrato.'});
 		}
 		try {
 			empresas = await Empresa.findAll();
@@ -178,9 +187,9 @@ router
 		try {
 			servicos = await Servico.findAll();
 		} catch (error) {
-			res.render('error',{msg:'Não foi possível carregar os sevricos.'});
+			res.render('error',{msg:'Não foi possível carregar os serviços.'});
 		}
-		res.render('notas/form',{title:'Formulario de Atualização:',empresas,clientes,servicos,notas});
+		res.render('notas/form',{title:'Formulário de Atualização:',empresas,clientes,servicos,notas});
 	} catch (error) {
 		res.render('error',{msg:'Não foi possível carregar o formulário.'});
 	}
@@ -228,9 +237,9 @@ router
 		});
 		
 		console.log('Nota atualizada! \n',nota,item);
-		res.redirect('/notas')
+		res.redirect(routeName);
 	} catch (error) {
-		res.render('error',{msg:'Não foi possível atualizar a nota. \n' + error + '.'});
+		res.render('error',{msg:'Não foi possível atualizar o extrato. \n' + error + '.'});
 	}
  });
 
@@ -243,11 +252,72 @@ router.get('/delete/:id', async (req,res)=>{
 		const nota = await Nota.destroy({where:{id:codigo}});
 
 		console.log('Nota removida! \n',item,nota);
-		res.redirect('/notas');
+		res.redirect(routeName);
 	} catch (error) {
-		res.render('error',{msg:'Não foi possível excluir a nota. \n'})
+		res.render('error',{msg:'Não foi possível excluir o extrato. \n'})
 	}
 });
+
+
+router.get('/gerar-pdf/:id', async (req, res) => {
+	const codigo = req.params.id;
+	const nota = await Nota.findAll({
+	  include: [
+		{
+		  model: ItensDaNota,
+		  include: [{ model: Servico }],
+		  where: { NotaId: codigo },
+		},
+		{ model: Empresa },
+		{ model: Cliente },
+	  ],
+	},{
+	  where: { id: codigo }
+	});
+  
+	try {
+		// Renderizar a página EJS com os dados
+		const html = await ejs.renderFile(
+			path.join(__dirname, '..', 'views', 'notas', 'profile-pdf.ejs'),
+			{ nota }
+		);	  
+			
+		// Configuração do Puppeteer
+		console.log('Iniciando Puppeteer...');
+
+		const browser = await puppeteer.launch({
+			headless: false,
+			executablePath: process.env.BROWSER_PATH,
+		});
+		const page = await browser.newPage();
+
+		console.log(`Número de páginas abertas: ${pages.length}`);
+	
+		console.log('Puppeteer iniciado com sucesso.')
+
+		// Define o conteúdo HTML da página
+		await page.setContent(html);
+
+		// Adicione uma pausa para dar tempo ao navegador de processar o HTML
+		await page.waitForTimeout(2000);
+	
+		// Gera o PDF
+		const pdfBuffer = await page.pdf({ format: 'A4' });
+	
+		// Fecha o navegador
+		console.log('Fechando o navegador...');
+
+		await browser.close();
+	
+		// Envia o PDF como resposta
+		res.contentType('application/pdf');
+		res.send(pdfBuffer);
+	} catch (error) {
+		console.error('Erro ao gerar PDF:', error);
+		res.status(500).send('Erro interno ao gerar PDF');
+	}
+  });
+  
 
 
 module.exports = router;

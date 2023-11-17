@@ -56,7 +56,7 @@ app.use(express.urlencoded({ extended: true })); // Middleware para analisar dad
 app.use(defaultRoutes);
 app.use(checkAuthCookie);	// A partir dessa linha todas as rotas estão protegidas
 app.use("/clientes", clientRoutes);
-app.use("/notas", noteRoutes);
+app.use("/extratos", noteRoutes);
 app.use("/servicos", serviceRoutes);
 app.use("/usuarios", userRoutes);
 app.use("/empresa", empresaRoutes);

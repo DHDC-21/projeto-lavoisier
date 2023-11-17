@@ -48,6 +48,12 @@ router
 		// return res.status(422).json({msg: 'Usuario ja cadastrado!'});
 	}
 
+	const emailExists = await Usuario.findOne({where:{email: inputEmail}});
+	if(emailExists){
+		return res.render('usuarios/form', {title:'Formulario de criacao de usuario', msg: 'Usuario ja cadastrado!' });
+		// return res.status(422).json({msg: 'Usuario ja cadastrado!'});
+	}
+
 	// Criptografando a senha
 	const  salt = await bcrypt.genSalt(12);
 	const passwordHash = await bcrypt.hash(inputPassword, salt);

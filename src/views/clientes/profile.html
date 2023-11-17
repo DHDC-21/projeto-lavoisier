@@ -44,19 +44,23 @@
 	</div>
 
 	<div class="container">
-		<h3>Notas do Cliente:</h3>
+		<h3>Dividas:</h3>
 		<br>
 		<table class="table table-striped">
 			<thead class="table-dark">
 				<tr>
-					<td>Cod.Nota</td>
-					<td>Descrição</td>
-					<td>Unitário</td>
-					<td>Qt.</td>
-					<td>Subtotal</td>
+					<strong>
+						<td>Código</td>
+						<td>Descrição</td>
+						<td>Unitário</td>
+						<td>Qt.</td>
+						<td>Subtotal</td>
+						<td>Ação</td>
+					</strong>
 				</tr>
 			</thead>
 			<tbody>
+				<% let totalGeral = 0; %>
                 <!-- Lógica de programação para exibir lista de notas de serviço -->
 				<% for(let i = 0; i < nota.length; i++){ %>
 					<% for( let j = 0; j < nota[i].ItensDaNota.length; j++ ) { %>
@@ -69,9 +73,14 @@
 							<td>
 								<% if (nota[i].ItensDaNota[j].Servico) { %>
 									R$ <%= nota[i].ItensDaNota[j].Servico.valor_unitario * nota[i].ItensDaNota[j].quantidade %>
+									<% totalGeral += nota[i].ItensDaNota[j].Servico.valor_unitario * nota[i].ItensDaNota[j].quantidade; %>
 								<% } else { %>
 									N/A <!-- Se o objeto Servico não estiver definido -->
 								<% } %>
+							</td>
+							<td>
+								<a href="/extratos/read/<%= nota[i].id %>" class="btn btn-info" style=" font-size: small;">VER</a>
+								<a href="/extratos/update/<%= nota[i].id %>" class="btn btn-warning" style=" font-size: small;">EDITAR</a>
 							</td>
 						</tr>
 
@@ -81,15 +90,25 @@
 			<tfoot  class="table-dark">
 				<tr>
 					<td class="col-tag" colspan="4" style="text-align: end;">Total:</td>
-					<td><%= nota.total %></td>
+					<td>R$ <%= totalGeral.toFixed(2) %></td>
+					<td></td>
 				</tr>
 			</tfoot>
 		</table>
 	</div>
 
 	<div class="container">
-		<a href="/clientes" class="btn btn-primary">VOLTAR</a>
-		<a href="/clientes/update/<%= cliente.id%>" class="btn btn-warning">ATUALIZAR</a>
+		<div class="row">
+			<div class="col-9">
+			  <div class="btn-group">
+				<a href="/clientes" class="btn btn-primary">VOLTAR</a>
+				<a href="/clientes/update/<%= cliente.id%>" class="btn btn-warning">ATUALIZAR</a>
+			</div>
+		</div>
+		<div class="col-3 text-end" style="text-align: end;">
+		  <a href="" class="btn btn-danger">IMPRIMIR</a>
+		</div>
+	  </div>
 	</div>
 </body>
 </html>

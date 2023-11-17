@@ -20,7 +20,7 @@ router
 	const {inputDescricao, inputValorUnitario} = req.body;
 	
 	try {
-		const novoServico = await Servico.create({
+		const servico = await Servico.create({
 			descricao: inputDescricao,
 			valor_unitario: inputValorUnitario
 		})

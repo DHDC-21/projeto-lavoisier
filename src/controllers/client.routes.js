@@ -98,7 +98,7 @@ router
 	const codigo = req.params.id;
 	try {
 		const cliente = await Cliente.findOne({where:{id:codigo}});
-		res.render('clientes/form',{title:'Formulario de Atualização',cliente,msg:''});
+		res.render('clientes/form',{title:'Formulário de Atualização',cliente,msg:''});
 	} catch (error) {
 		res.render('error',{msg:'Cliente nao encontrado.'});
 	}

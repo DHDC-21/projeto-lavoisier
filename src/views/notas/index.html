@@ -41,7 +41,7 @@
         <table class="table">
             <thead>
                 <tr>
-					<th>Cód.Nota</th>
+					<th>Código</th>
                     <th>Cliente</th>
                     <th>Serviço</th>
 					<th>Valor Unitário</th>
@@ -87,15 +87,15 @@
         }
 
         function btnCreate() {
-            window.location.href = "/notas/create";
+            window.location.href = "/extratos/create";
         }
 
         function btnRead(codigo) {
-            window.location.href = "/notas/read/" + codigo;
+            window.location.href = "/extratos/read/" + codigo;
         }
 
         function btnUpdate(codigo) {
-            window.location.href = "/notas/update/" + codigo;
+            window.location.href = "/extratos/update/" + codigo;
         }
 
         function btnDelete(codigo, cliente) {
@@ -104,7 +104,7 @@
 
             if (confirmacao) {
                 // Se o usuário confirmar, redirecione para a rota de exclusão com o código da nota de serviço
-                window.location.href = "/notas/delete/" + codigo;
+                window.location.href = "/extratos/delete/" + codigo;
             }
         }
     </script>

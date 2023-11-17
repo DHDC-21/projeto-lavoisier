@@ -10,86 +10,22 @@
 	<link rel="stylesheet" href="/fullscreen.css">
 </head>
 <body>
-	<div class="container d-flex">
-		<div class="p-2 flex-grow-1">
-			<%= nota.EmpresaId %>
+	<%- include('./profile-pdf.ejs') %>
+	<div class="container">
+		<div class="row">
+		  <div class="col-9">
+			<div class="btn-group">
+			  <a href="/extratos" class="btn btn-primary">VOLTAR</a>
+			  <a href="/clientes/read/<%= nota[0].Cliente.id %>" class="btn btn-info">CLIENTE</a>
+			  <a href="/extratos/update/<%= nota[0].id %>" class="btn btn-warning">ATUALIZAR</a>
+			</div>
+		  </div>
+		  <div class="col-3 text-end" style="text-align: end;">
+			<!-- <a href="/extratos/gerar-pdf/<%= nota[0].id %>" class="btn btn-danger">IMPRIMIR</a> -->
+			<a href="" class="btn btn-danger">IMPRIMIR</a>
+		  </div>
 		</div>
-		<div class="p-2"><h1>Extrato Individual</h1></div>
-	</div>
-
-	<div class="container">
-		<div>
-			<h3>Informações do Cliente:</h3>
-			<br>
-			<table border="0" class="table">
-				<tr>
-					<td class="col-tag">Nome/Razão Social:</td>
-					<td> <%= nota[0].Cliente.razao_social %> </td>
-				</tr>
-				<tr>
-					<td class="col-tag">CPF/CNPJ:</td>
-					<td> <%= nota[0].Cliente.cpf_cnpj %> </td>
-				</tr>
-				<tr>
-					<td class="col-tag">E-mail:</td>
-					<td> <%= nota[0].Cliente.email %> </td>
-				</tr>
-				<tr>
-					<td class="col-tag">Endereço:</td>
-					<td> <%= nota[0].Cliente.endereco %>, <%= nota[0].Cliente.municipio %> - <%= nota[0].Cliente.estado %></td>
-				</tr>
-			</table>
-		</div>
-	</div>
-
-	<div class="container">
-		<h3>Itens da Nota:</h3>
-		<br>
-		<table class="table table-striped">
-			<thead class="table-dark">
-				<tr>
-					<td>Cod.Nota</td>
-					<td>Descrição</td>
-					<td>Unitário</td>
-					<td>Qt.</td>
-					<td>Subtotal</td>
-				</tr>
-			</thead>
-			<tbody>
-                <!-- Lógica de programação para exibir lista de notas de serviço -->
-				<% for(let i = 0; i < nota.length; i++){ %>
-					<% for( let j = 0; j < nota[i].ItensDaNota.length; j++ ) { %>
-
-						<tr>
-							<td># <%= nota[i].id %></td>
-							<td><%= nota[i].ItensDaNota[j].Servico.descricao %></td>
-							<td>R$ <%= nota[i].ItensDaNota[j].Servico.valor_unitario %></td>
-							<td>x <%= nota[i].ItensDaNota[j].quantidade %></td>
-							<td>
-								<% if (nota[i].ItensDaNota[j].Servico) { %>
-									R$ <%= nota[i].ItensDaNota[j].Servico.valor_unitario * nota[i].ItensDaNota[j].quantidade %>
-								<% } else { %>
-									N/A <!-- Se o objeto Servico não estiver definido -->
-								<% } %>
-							</td>
-						</tr>
-
-					<% } %>
-                <% } %>
-            </tbody>
-			<tfoot  class="table-dark">
-				<tr>
-					<td class="col-tag" colspan="4" style="text-align: end;">Total:</td>
-					<td><%= nota.total %></td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
-
-	<div class="container">
-		<a href="/notas" class="btn btn-primary">VOLTAR</a>
-		<a href="/clientes/read/<%= nota[0].Cliente.id %>" class="btn btn-info">CLIENTE</a>
-		<a href="/notas/update/<%= nota[0].id %>" class="btn btn-warning">ATUALIZAR</a>
-	</div>
+	  </div>
+	  
 </body>
 </html>

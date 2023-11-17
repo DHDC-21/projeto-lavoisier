@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/bootstrap.min.css">
+	<script src="/bootstrap.bundle.mim.js"></script>
+	<link rel="stylesheet" href="/fullscreen.css">
+</head>
+<body>
+	<div class="container d-flex">
+		<div class="p-2 flex-grow-1">
+			<h2><%= nota[0].Empresa.razao_social %> </h2>
+		</div>
+		<div class="p-2"><h1>Extrato Individual</h1></div>
+	</div>
+
+	<div class="container">
+		<div>
+			<h3>Informações do Cliente:</h3>
+			<br>
+			<table border="0" class="table">
+				<tr>
+					<td class="col-tag">Nome/Razão Social:</td>
+					<td> <%= nota[0].Cliente.razao_social %> </td>
+				</tr>
+				<tr>
+					<td class="col-tag">CPF/CNPJ:</td>
+					<td> <%= nota[0].Cliente.cpf_cnpj %> </td>
+				</tr>
+				<tr>
+					<td class="col-tag">E-mail:</td>
+					<td> <%= nota[0].Cliente.email %> </td>
+				</tr>
+				<tr>
+					<td class="col-tag">Endereço:</td>
+					<td> <%= nota[0].Cliente.endereco %>, <%= nota[0].Cliente.municipio %> - <%= nota[0].Cliente.estado %></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="container">
+		<h3>Itens:</h3>
+		<br>
+		<table class="table table-striped">
+		  <thead class="table-dark">
+			<tr>
+				<strong>
+					<td>Código</td>
+					<td>Descrição</td>
+					<td>Unitário</td>
+					<td>Qt.</td>
+					<td>Subtotal</td>
+				</strong>
+			</tr>
+		  </thead>
+		  <tbody>
+			<% let totalGeral = 0; %>
+			<!-- Lógica de programação para exibir lista de notas de serviço -->
+			<% for (let i = 0; i < nota.length; i++) { %>
+			  <% for (let j = 0; j < nota[i].ItensDaNota.length; j++) { %>
+				<tr>
+				  <td># <%= nota[i].id %></td>
+				  <td><%= nota[i].ItensDaNota[j].Servico.descricao %></td>
+				  <td>R$ <%= nota[i].ItensDaNota[j].Servico.valor_unitario %></td>
+				  <td>x <%= nota[i].ItensDaNota[j].quantidade %></td>
+				  <td>
+					<% if (nota[i].ItensDaNota[j].Servico) { %>
+					  R$ <%= nota[i].ItensDaNota[j].Servico.valor_unitario * nota[i].ItensDaNota[j].quantidade %>
+					  <% totalGeral += nota[i].ItensDaNota[j].Servico.valor_unitario * nota[i].ItensDaNota[j].quantidade; %>
+					<% } else { %>
+					  N/A <!-- Se o objeto Servico não estiver definido -->
+					<% } %>
+				  </td>
+				</tr>
+			  <% } %>
+			<% } %>
+		  </tbody>
+		  <tfoot class="table-dark">
+			<tr>
+			  <td class="col-tag" colspan="4" style="text-align: end;">Total:</td>
+			  <td>R$ <%= totalGeral.toFixed(2) %></td>
+			</tr>
+		  </tfoot>
+		</table>
+	  </div>
+	  
+	<div class="container">
+		<table border="0" class="table">
+			<tr>
+				<td class="col-tag">Prazo:</td>
+				<td> <%= nota[0].prazo %> dias</td>
+			</tr>
+			<tr>
+				<td class="col-tag">Entrega:</td>
+				<td> <%= nota[0].entrega %> </td>
+			</tr>
+			
+			<tr>
+				<td class="col-tag">Observações:</td>
+				<td>
+					<% if (nota[0].observacao) { %>
+						<p><%= nota[0].observacao %></p>
+					<% } else { %>
+						<p>N/A</p>
+					<% } %>
+				</td>
+			</tr>
+		</table>
+	</div>
+	  
+</body>
+</html>

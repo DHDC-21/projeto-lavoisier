@@ -12,8 +12,11 @@ const Usuario = require('../models/Usuario.js');
 const { and, Sequelize } = require('sequelize');
 
 
-// MENU PRINCIPAL
-router.get('/', checkAuthCookie, (req,res)=>{res.render('index',{title:'Menu Inicial'});});
+
+// INDEX
+router.get('/', checkAuthCookie, async (req, res) => {
+  res.render('index', { title: 'Menu Inicial'});
+});
 router.get("/home", checkAuthCookie, (req,res)=>{res.redirect('/');});
 
 

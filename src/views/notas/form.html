@@ -21,8 +21,8 @@
 
 			
             <div class="form-group">
-              <label for="inputEmpresa">Empresa:</label>
-              <select class="form-control" name="inputEmpresa" id="inputEmpresa">
+              <label for="inputEmpresaId">Empresa:</label>
+              <select class="form-control" name="inputEmpresaId" id="inputEmpresaId" required>
                 <% for( let i = 0; i < empresas.length; i++ ) { %>
                     <option value="<%= empresas[i].id %>"><%= empresas[i].razao_social %></option>
 				<% } %>
@@ -113,7 +113,7 @@
 				<textarea class="form-control" id="inputObservacao" name="inputObservacao"></textarea>
 			</div>
 
-            <a class="btn btn-primary" href="/notas">Voltar</a>
+            <a class="btn btn-primary" href="/extratos">Voltar</a>
             <button type="submit" class="btn btn-success">Salvar</button>
         </form>
     </div>
