@@ -2,9 +2,12 @@
 const express = require('express');
 const router = express.Router();
 
-const puppeteer = require('puppeteer');
-const path = require('path');
+const fs = require('fs');
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
+const { Document, Page, pdfjs } = require('react-pdf');
 const ejs = require('ejs');
+const path = require('path');
 
 const routeName = '/extratos';
 
@@ -260,63 +263,61 @@ router.get('/delete/:id', async (req,res)=>{
 
 
 router.get('/gerar-pdf/:id', async (req, res) => {
-	const codigo = req.params.id;
-	const nota = await Nota.findAll({
-	  include: [
-		{
-		  model: ItensDaNota,
-		  include: [{ model: Servico }],
-		  where: { NotaId: codigo },
-		},
-		{ model: Empresa },
-		{ model: Cliente },
-	  ],
-	},{
-	  where: { id: codigo }
-	});
-  
-	try {
-		// Renderizar a página EJS com os dados
-		const html = await ejs.renderFile(
-			path.join(__dirname, '..', 'views', 'notas', 'profile-pdf.ejs'),
-			{ nota }
-		);	  
-			
-		// Configuração do Puppeteer
-		console.log('Iniciando Puppeteer...');
-
-		const browser = await puppeteer.launch({
-			headless: false,
-			executablePath: process.env.BROWSER_PATH,
-		});
-		const page = await browser.newPage();
-
-		console.log(`Número de páginas abertas: ${pages.length}`);
-	
-		console.log('Puppeteer iniciado com sucesso.')
-
-		// Define o conteúdo HTML da página
-		await page.setContent(html);
-
-		// Adicione uma pausa para dar tempo ao navegador de processar o HTML
-		await page.waitForTimeout(2000);
-	
-		// Gera o PDF
-		const pdfBuffer = await page.pdf({ format: 'A4' });
-	
-		// Fecha o navegador
-		console.log('Fechando o navegador...');
-
-		await browser.close();
-	
-		// Envia o PDF como resposta
-		res.contentType('application/pdf');
-		res.send(pdfBuffer);
-	} catch (error) {
-		console.error('Erro ao gerar PDF:', error);
-		res.status(500).send('Erro interno ao gerar PDF');
-	}
+  const codigo = req.params.id;
+  const nota = await Nota.findAll({
+    include: [
+      {
+        model: ItensDaNota,
+        include: [{ model: Servico }],
+        where: { NotaId: codigo },
+      },
+      { model: Empresa },
+      { model: Cliente },
+    ],
+  },{
+    where: { id: codigo }
   });
+
+  try {
+	 // Carrega o conteúdo do arquivo EJS
+	 const filePath = path.join(__dirname, '..', 'views', 'notas', 'profile-pdf.ejs');
+	 const ejsContent = fs.readFileSync(filePath, 'utf-8');
+ 
+	 // Renderiza o conteúdo EJS
+	 const html = await ejs.render(ejsContent, { /* seus dados para o EJS, se necessário */ });
+ 
+	 // Configuração do React para gerar PDF
+	 console.log('Iniciando React para gerar PDF...');
+ 
+	 const pdfContent = ReactDOMServer.renderToString(
+	   <Document>
+		 <Page>
+		   <div dangerouslySetInnerHTML={{ __html: html }} />
+		 </Page>
+	   </Document>
+	 );
+ 
+	 console.log('React para gerar PDF iniciado com sucesso.');
+ 
+	 // Salva o conteúdo do PDF em um arquivo temporário
+	 const pdfFilePath = 'output.pdf';
+	 fs.writeFileSync(pdfFilePath, pdfContent, 'utf-8');
+ 
+	 // Envia o arquivo como resposta para o cliente
+	 res.download(pdfFilePath, 'output.pdf', (err) => {
+	   if (err) {
+		 console.error(err);
+		 res.status(500).send('Internal Server Error');
+	   } else {
+		 // Remove o arquivo temporário após o download
+		 fs.unlinkSync(pdfFilePath);
+	   }
+	 });
+  } catch (error) {
+   console.log(error);
+   res.render('error',{msg:'Erro ao gerar pdf!'})
+  }
+});
   
 
 
