@@ -2,10 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-const fs = require('fs');
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
-const { Document, Page, pdfjs } = require('react-pdf');
+const pdf = require('html-pdf');
 const ejs = require('ejs');
 const path = require('path');
 
@@ -263,59 +260,50 @@ router.get('/delete/:id', async (req,res)=>{
 
 
 router.get('/gerar-pdf/:id', async (req, res) => {
-  const codigo = req.params.id;
-  const nota = await Nota.findAll({
-    include: [
-      {
-        model: ItensDaNota,
-        include: [{ model: Servico }],
-        where: { NotaId: codigo },
-      },
-      { model: Empresa },
-      { model: Cliente },
-    ],
-  },{
-    where: { id: codigo }
-  });
+	const codigo = req.params.id;
+	const nota = await Nota.findAll({
+		include: [
+		{
+			model: ItensDaNota,
+			include: [{ model: Servico }],
+			where: { NotaId: codigo },
+		},
+		{ model: Empresa },
+		{ model: Cliente },
+		],
+	},{
+		where: { id: codigo }
+	});
 
-  try {
-	 // Carrega o conteúdo do arquivo EJS
-	 const filePath = path.join(__dirname, '..', 'views', 'notas', 'profile-pdf.ejs');
-	 const ejsContent = fs.readFileSync(filePath, 'utf-8');
- 
-	 // Renderiza o conteúdo EJS
-	 const html = await ejs.render(ejsContent, { /* seus dados para o EJS, se necessário */ });
- 
-	 // Configuração do React para gerar PDF
-	 console.log('Iniciando React para gerar PDF...');
- 
-	 const pdfContent = ReactDOMServer.renderToString(
-	   <Document>
-		 <Page>
-		   <div dangerouslySetInnerHTML={{ __html: html }} />
-		 </Page>
-	   </Document>
-	 );
- 
-	 console.log('React para gerar PDF iniciado com sucesso.');
- 
-	 // Salva o conteúdo do PDF em um arquivo temporário
-	 const pdfFilePath = 'output.pdf';
-	 fs.writeFileSync(pdfFilePath, pdfContent, 'utf-8');
- 
-	 // Envia o arquivo como resposta para o cliente
-	 res.download(pdfFilePath, 'output.pdf', (err) => {
-	   if (err) {
-		 console.error(err);
-		 res.status(500).send('Internal Server Error');
-	   } else {
-		 // Remove o arquivo temporário após o download
-		 fs.unlinkSync(pdfFilePath);
-	   }
-	 });
-  } catch (error) {
-   console.log(error);
-   res.render('error',{msg:'Erro ao gerar pdf!'})
+	try {
+		// Renderize a página EJS com os dados da 'nota'
+        ejs.renderFile(path.join(__dirname,'..','views','notas','profile-pdf.ejs'), { nota }, (err, html) => {
+            if (err) {
+                console.error(err);
+                res.render('error', { msg: 'Erro ao renderizar página EJS!' });
+                return;
+            }
+
+            // Opções para a conversão
+            const options = { format: 'Letter' };
+
+            // Gere o PDF
+            pdf.create(html, options).toBuffer((err, buffer) => {
+                if (err) {
+                    console.error(err);
+                    res.render('error', { msg: 'Erro ao gerar pdf!' });
+                    return;
+                }
+
+                // Envie o PDF como resposta para o cliente
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', `attachment; filename=relatorio-${codigo}.pdf`);
+                res.send(buffer);
+            });
+        });
+	} catch (error) {
+	console.log(error);
+	res.render('error',{msg:'Erro ao gerar pdf!'})
   }
 });
   
