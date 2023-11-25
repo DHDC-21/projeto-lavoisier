@@ -1,23 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><%- title %></title>
-	<link rel="stylesheet" href="/bootstrap.min.css">
-	<script src="/bootstrap.bundle.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- title %></title>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <script src="/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/fullscreen.css">
+    <style>
+        /* Adiciona estilo personalizado para tornar os links mais parecidos com botões em dispositivos móveis */
+        .custom-link {
+            width: 100%;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            padding: 10px;
+            border: 1px solid #007bff; /* azul */
+            border-radius: 5px;
+            background-color: #007bff; /* azul */
+            color: #fff; /* texto branco */
+        }
+
+        .custom-link-danger {
+            width: 100%;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            padding: 10px;
+            border: 1px solid #dc3545; /* vermelho */
+            border-radius: 5px;
+            background-color: #dc3545; /* vermelho */
+            color: #fff; /* texto branco */
+        }
+    </style>
 </head>
 
-
-<header>
-	<%- include('./partials/navbar.ejs') %>
-</header>
-
-
 <body>
-	<%- include('./partials/exemplo.ejs') %>
-</body>
+    <div class="container mt-5" style="max-width: 400px;">
+        <h1 class="text-center">CRISLU WEBAPP</h1>
+        <h2 class="text-center">Bem-Vindo!</h2>
 
+		<hr>
+
+        <div class="mt-5">
+            <a href="/clientes" class="custom-link">CLIENTES</a>
+        </div>
+
+        <div class="mt-4">
+            <a href="/extratos" class="custom-link">EXTRATOS DE SERVIÇOS</a>
+        </div>
+
+        <div class="mt-4">
+            <a href="/servicos" class="custom-link">SERVIÇOS</a>
+        </div>
+
+        <div class="mt-4">
+            <a href="/empresa" class="custom-link">EMPRESA</a>
+        </div>
+
+        <div class="mt-4">
+            <a href="/usuarios" class="custom-link">USUÁRIOS</a>
+        </div>
+
+        <div class="mt-4">
+            <a href="/logout" class="custom-link-danger">DESLOGAR</a>
+            <!-- O link DESLOGAR será vermelho -->
+        </div>
+    </div>
+</body>
 
 </html>

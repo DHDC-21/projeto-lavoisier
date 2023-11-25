@@ -11,7 +11,7 @@ router
 .get("/", async (req,res)=>{
 	try {
 		const usuarios = await Usuario.findAll({attributes: { exclude: ['password'] },});
-		res.render("usuarios/index", {title:'CONTROLE DE USUARIOS', usuarios})
+		res.render("usuarios/index", {title:'Controle De Usuarios', usuarios})
 	} catch (error) {
 		console.log(error)
 		res.send('Pagina com erro!')

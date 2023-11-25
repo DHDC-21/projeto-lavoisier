@@ -1,17 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><%-title%></title>
-	<link rel="stylesheet" href="/bootstrap.min.css">
-	<script src="/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- title %></title>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <script src="/bootstrap.bundle.min.js"></script>
+    <!-- Adicione qualquer outro arquivo de estilo necessário aqui -->
+    <style>
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-body table {
+            width: 100%;
+            border: none;
+        }
+
+        .card-body td {
+            padding: 8px;
+            border: none;
+        }
+
+        .card-body p {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
-<footer><%- include('../partials/navbar.ejs') %></footer>
+
 <body>
-	<div class="container">
+
+    <header><%- include('../partials/navbar.ejs') %></header>
+
+	<h1 style="font-size: 50px; font-weight: bold; text-align: center; margin: 50px;">
+		<%- title %>
+	</h1>
+
+	<!-- Barra de pesquisa -->
+	<!--
 		
-	</div>
+		<div class="container mt-3">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon">
+				<div class="input-group-append">
+					<button class="btn btn-primary" type="button" onclick="btnSearch()">Procurar</a>
+					<button class="btn btn-success" type="button" onclick="btnCreate()">Adicionar</a>
+				</div>
+			</div>
+		</div>
+
+	-->
+
+    <div class="container mt-5">
+        <% for (let i = 0; i < empresa.length; i++) { %>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong class="mb-0"><%= empresa[i].razao_social %></strong>
+                    <button type="button" class="btn btn-warning" onclick="btnUpdate('<%= empresa[i].id %>')">Editar</button>
+                </div>
+                <div class="card-body">
+                    <table>
+                        <tr>
+                            <td><strong>CNPJ:</strong></td>
+                            <td><%= empresa[i].cnpj %></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Endereço:</strong></td>
+                            <td><%= empresa[i].endereco %></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Município:</strong></td>
+                            <td><%= empresa[i].municipio %></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Estado:</strong></td>
+                            <td><%= empresa[i].estado %></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        function btnSearch() {
+            // código
+
+        }
+
+        function btnCreate() {
+            window.location.href = "/empresa/create";
+        }
+
+        function btnRead(codigo) {
+            window.location.href = "/empresa/read/" + codigo;
+        }
+
+        function btnUpdate(codigo) {
+            window.location.href = "/empresa/update/" + codigo;
+        }
+
+        function btnDelete(codigo, nome) {
+            var confirmacao = confirm('Você está prestes a excluir o cadastro da filial ' + nome + ' (Código: ' + codigo + '). Esta ação é irreversível. Aperte em "OK" se deseja continuar.');
+
+            if (confirmacao) {
+                // Se o usuário confirmar, redirecione para a rota de exclusão com o código do cliente
+                window.location.href = "/empresa/delete/" + codigo;
+            }
+        }
+    </script>
 </body>
+
 </html>

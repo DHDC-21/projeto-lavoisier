@@ -2,9 +2,6 @@
 const express = require('express');
 const router = express.Router();
 
-const pdf = require('html-pdf');
-const ejs = require('ejs');
-const path = require('path');
 
 const routeName = '/extratos';
 
@@ -16,6 +13,11 @@ const Nota = require('../models/Nota.js');
 const ItensDaNota = require('../models/ItensDaNota.js');
 
 require('dotenv');
+
+const fs = require('fs');
+const ejs = require('ejs');
+const path = require('path');
+
 
 
 // INDEX
@@ -259,53 +261,47 @@ router.get('/delete/:id', async (req,res)=>{
 });
 
 
+const { webkit } = require('playwright');
+
 router.get('/gerar-pdf/:id', async (req, res) => {
-	const codigo = req.params.id;
-	const nota = await Nota.findAll({
-		include: [
-		{
-			model: ItensDaNota,
-			include: [{ model: Servico }],
-			where: { NotaId: codigo },
-		},
-		{ model: Empresa },
-		{ model: Cliente },
-		],
-	},{
-		where: { id: codigo }
-	});
+  const codigo = req.params.id;
 
-	try {
-		// Renderize a página EJS com os dados da 'nota'
-        ejs.renderFile(path.join(__dirname,'..','views','notas','profile-pdf.ejs'), { nota }, (err, html) => {
-            if (err) {
-                console.error(err);
-                res.render('error', { msg: 'Erro ao renderizar página EJS!' });
-                return;
-            }
+  try {
+    const nota = await Nota.findAll({
+      include: [
+        {
+          model: ItensDaNota,
+          include: [{ model: Servico }],
+          where: { NotaId: codigo },
+        },
+        { model: Empresa },
+        { model: Cliente },
+      ],
+    }, {
+      where: { id: codigo }
+    });
 
-            // Opções para a conversão
-            const options = { format: 'Letter' };
+    const caminhoTemplate = path.join(__dirname, '..', 'views', 'notas', 'profile-pdf.ejs');
+    const html = await ejs.renderFile(caminhoTemplate, { nota });
 
-            // Gere o PDF
-            pdf.create(html, options).toBuffer((err, buffer) => {
-                if (err) {
-                    console.error(err);
-                    res.render('error', { msg: 'Erro ao gerar pdf!' });
-                    return;
-                }
+    const browser = await webkit.launch();
 
-                // Envie o PDF como resposta para o cliente
-                res.setHeader('Content-Type', 'application/pdf');
-                res.setHeader('Content-Disposition', `attachment; filename=relatorio-${codigo}.pdf`);
-                res.send(buffer);
-            });
-        });
-	} catch (error) {
-	console.log(error);
-	res.render('error',{msg:'Erro ao gerar pdf!'})
+    const page = await browser.newPage();
+
+    await page.setContent(html);
+    await page.pdf({ path: '../../teste.pdf', format: 'A4' });
+
+    await browser.close();
+
+  } catch (error) {
+    console.error(error);
+
+    // Envie uma resposta de erro com mais detalhes
+    res.status(500).send('Erro ao gerar PDF: ' + error.message);
   }
 });
+
+
   
 
 
