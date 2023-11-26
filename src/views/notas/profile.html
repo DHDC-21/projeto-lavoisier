@@ -33,8 +33,12 @@
 	<script>
         const btnImprimir = document.getElementById("btnImprimir");
 		btnImprimir.addEventListener("click", () => {
+			// Pegando o conteudo de impressão da pagina
 			const conteudo = document.getElementById('conteudoPDF').innerHTML;
+
+			// Abrindo uma nova janela com apenas o conteudo de impressão
 			const win = window.open('', '_blank');
+
 			win.document.write('<html><head><title>Impressão</title></head><body>');
 			win.document.write(conteudo);
 			win.document.write('</body></html>');
@@ -47,7 +51,7 @@
 					win.close();
 				};
 				win.close();
-			}, 1000); // Aguarde 1 segundo (ajuste conforme necessário)
+			}, 500 ); // Aguarde 0,5 segundo
 		});
     </script>
 </body>
