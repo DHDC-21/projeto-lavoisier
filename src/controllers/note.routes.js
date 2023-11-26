@@ -261,48 +261,46 @@ router.get('/delete/:id', async (req,res)=>{
 });
 
 
-const { webkit } = require('playwright');
 
 router.get('/gerar-pdf/:id', async (req, res) => {
-  const codigo = req.params.id;
-
-  try {
-    const nota = await Nota.findAll({
-      include: [
-        {
-          model: ItensDaNota,
-          include: [{ model: Servico }],
-          where: { NotaId: codigo },
-        },
-        { model: Empresa },
-        { model: Cliente },
-      ],
-    }, {
-      where: { id: codigo }
-    });
-
-    const caminhoTemplate = path.join(__dirname, '..', 'views', 'notas', 'profile-pdf.ejs');
-    const html = await ejs.renderFile(caminhoTemplate, { nota });
-
-    const browser = await webkit.launch();
-
-    const page = await browser.newPage();
-
-    await page.setContent(html);
-    await page.pdf({ path: '../../teste.pdf', format: 'A4' });
-
-    await browser.close();
-
-  } catch (error) {
-    console.error(error);
-
-    // Envie uma resposta de erro com mais detalhes
-    res.status(500).send('Erro ao gerar PDF: ' + error.message);
-  }
-});
-
+	const codigo = req.params.id;
+  
+	try {
+	  const nota = await Nota.findAll({
+		include: [
+		  {
+			model: ItensDaNota,
+			include: [{ model: Servico }],
+			where: { NotaId: codigo },
+		  },
+		  { model: Empresa },
+		  { model: Cliente },
+		],
+	  }, {
+		where: { id: codigo }
+	  });
+  
+	  const caminhoTemplate = path.join(__dirname, '..', 'views', 'notas', 'profile-pdf.ejs');
+	  const htmlContent = await ejs.renderFile(caminhoTemplate, { nota });
+  
+	  // Use html2pdf para converter o HTML em PDF
+	  const pdfOptions = { margin: 10, filename: 'relatorio.pdf', image: { type: 'jpeg', quality: 0.98 } };
+	  const pdfElement = document.getElementById('pdf-container'); // Adicione um ID ao elemento que contém o HTML
+	  
+	  html2pdf().from(pdfElement).set(pdfOptions).outputPdf(pdf => {
+		// Envie o PDF gerado como resposta
+		res.type('application/pdf');
+		res.send(pdf);
+	  });
+  
+	} catch (error) {
+	  console.error(error);
+  
+	  // Envie uma resposta de erro com mais detalhes
+	  res.status(500).send('Erro ao gerar PDF: ' + error.message);
+	}
+  });
 
   
-
 
 module.exports = router;

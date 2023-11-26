@@ -6,26 +6,49 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><%-title%></title>
 	<link rel="stylesheet" href="/bootstrap.min.css">
-	<script src="/bootstrap.bundle.mim.js"></script>
+	<script src="/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="/fullscreen.css">
 </head>
 <body>
-	<%- include('./profile-pdf.ejs') %>
+	<!-- Adicione um ID ao elemento que contém o HTML -->
+	<div id="conteudoPDF">
+		<%- include('./profile-pdf.ejs') %>
+	</div>
+  
 	<div class="container">
 		<div class="row">
-		  <div class="col-9">
-			<div class="btn-group">
-			  <a href="/extratos" class="btn btn-primary">VOLTAR</a>
-			  <a href="/clientes/read/<%= nota[0].Cliente.id %>" class="btn btn-info">CLIENTE</a>
-			  <a href="/extratos/update/<%= nota[0].id %>" class="btn btn-warning">ATUALIZAR</a>
+			<div class="col-9">
+				<div class="btn-group">
+					<a href="/extratos" class="btn btn-primary">VOLTAR</a>
+					<a href="/clientes/read/<%= nota[0].Cliente.id %>" class="btn btn-info">CLIENTE</a>
+					<a href="/extratos/update/<%= nota[0].id %>" class="btn btn-warning">ATUALIZAR</a>
+				</div>
 			</div>
-		  </div>
-		  <div class="col-3 text-end" style="text-align: end;">
-			<a href="/extratos/gerar-pdf/<%= nota[0].id %>" class="btn btn-danger">IMPRIMIR</a>
-			<!-- <a href="" class="btn btn-danger">IMPRIMIR</a> -->
-		  </div>
+			<div class="col-3 text-end" style="text-align: end;">
+				<button id="btnImprimir" class="btn btn-danger">IMPRIMIR</button>
+			</div>
 		</div>
-	  </div>
+	</div>
 	  
+	<script>
+        const btnImprimir = document.getElementById("btnImprimir");
+		btnImprimir.addEventListener("click", () => {
+			const conteudo = document.getElementById('conteudoPDF').innerHTML;
+			const win = window.open('', '_blank');
+			win.document.write('<html><head><title>Impressão</title></head><body>');
+			win.document.write(conteudo);
+			win.document.write('</body></html>');
+			win.document.close();  // Necessário para alguns navegadores
+
+			// Adicione um pequeno atraso antes de acionar a impressão
+			setTimeout(() => {
+				win.print();
+				win.onafterprint = function() {
+					win.close();
+				};
+				win.close();
+			}, 1000); // Aguarde 1 segundo (ajuste conforme necessário)
+		});
+    </script>
 </body>
 </html>
